@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 public class EnquiresList implements IEnquriesList {
     ArrayList<Enquiry> enquiries;
+    public ArrayList<Enquiry> getEnquiries() {
+        return enquiries;
+    }
+
 
     public ArrayList<Enquiry> getAllEnquries(String studentID) {
         ArrayList<Enquiry> enquiriesList = new ArrayList<>();

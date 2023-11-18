@@ -15,6 +15,11 @@ public class CampListController implements ICampListController {
         return campData.getCamps();
     }
 
+    public ArrayList<Camp> getAllCamps(String faculty) {
+
+        return campData.getCamps(faculty);
+    }
+
     public ArrayList<Camp> getCamp(int campID) {
         return campData.getCamps(campID);
     }

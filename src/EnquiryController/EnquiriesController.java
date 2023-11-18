@@ -8,7 +8,19 @@ import java.util.ArrayList;
 import static CAMs.CampApp.campScanner;
 
 public class EnquiriesController implements IEnquiriesReplyController, IEnquiriesQuestionController {
-    EnquiresList enquirydata;
+    EnquiresList enquirydata = new EnquiresList();
+    public void viewEnquiriesRecords() {
+        System.out.println("Finding all Enquiry Records:");
+        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquiries();
+        for (Enquiry enqRecord : matchedEnquiry) {
+            System.out.println("-------\n");
+            System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
+            System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Reply: " + enqRecord.getReply());
+            System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
+            System.out.println("-------\n\n");
+        }
+    }
     public void viewAllEnquiries(String studentID) {
         System.out.println("Finding all question records of Student: " + studentID + "\n");
         ArrayList<Enquiry> matchedEnquiry = enquirydata.getAllEnquries(studentID);
@@ -35,9 +47,10 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
         }
     }
 
-    public void submitEnquiry(String studentID, String enquiry) {
+    public void submitEnquiry(String studentID,  String enquiry) {
+
         Enquiry newEnq = new Enquiry();
-        newEnq.setQuestion(enquiry);
+        newEnq.setReply(enquiry);
         newEnq.setStudentID(studentID);
         System.out.println("Submitting query of studentID:" + studentID + "\n");
         enquirydata.addEnqury(newEnq);
@@ -94,12 +107,11 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
         }
     }
 
-    public void submitReply(String studentID, String enquiry) {
-        Enquiry newEnq = new Enquiry();
-        newEnq.setQuestion(enquiry);
-        newEnq.setStudentID(studentID);
+    public void submitReply(String studentID,  int enquiryID, String enquiry) {
+        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquries(studentID, enquiryID);
+        Enquiry targetEnq = matchedEnquiry.get(0);
+        targetEnq.setQuestion(enquiry);
         System.out.println("Submitting query of studentID:" + studentID + "\n");
-        enquirydata.addEnqury(newEnq);
     }
 
     public void editReply(String studentID, int enquiryID, String newEnquiry) {

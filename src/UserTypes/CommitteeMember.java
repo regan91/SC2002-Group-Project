@@ -1,7 +1,7 @@
 package UserTypes;
 
 public class CommitteeMember extends Student{
-    private int campInCharge;
+    private int campInCharge = -1;
     private int points;
 
     public CommitteeMember(int campID){

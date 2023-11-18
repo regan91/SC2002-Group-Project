@@ -5,7 +5,7 @@ import CAMs.Camp;
 public class CampPrinter {
     public void printCampBasicDetails(Camp campRecord){
         System.out.println("Camp ID: " + campRecord.getStaticDetails().getCampID());
-        System.out.println("Camp In Charge: " + campRecord.getStaticDetails().getStaffIC());
+        System.out.println("Camp In Charge: " + campRecord.getStaticDetails().getStaffIC().getUserID());
         System.out.println("Camp Name: " + campRecord.getDynamicDetails().getCampName());
         System.out.println("Camp Registration Close: " + campRecord.getDynamicDetails().getClosingDate());
         System.out.println("Camp Description: " + campRecord.getDynamicDetails().getDescription());

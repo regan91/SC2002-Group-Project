@@ -1,12 +1,21 @@
 package SuggestionController;
 
+import EnquiryController.Enquiry;
 import SuggestionController.Interfaces.ISuggestionList;
 
 import java.util.ArrayList;
 
 public class SuggestionList implements ISuggestionList {
-    private ArrayList<Suggestion> suggestions;
-    private ArrayList<Suggestion> approvedSuggestions;
+    private ArrayList<Suggestion> suggestions = new ArrayList<>();
+    private ArrayList<Suggestion> approvedSuggestions = new ArrayList<>();
+
+
+    public ArrayList<Suggestion> getSuggestions() {
+        ArrayList<Suggestion> returnList = suggestions;
+        returnList.addAll(approvedSuggestions);
+        return returnList;
+    }
+
     public ArrayList<Suggestion> getAllSuggestions(String studentID) {
         ArrayList<Suggestion> foundSuggestions = new ArrayList<>();
         for (Suggestion target : suggestions) {

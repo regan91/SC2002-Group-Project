@@ -16,6 +16,18 @@ public class SuggestionController implements ISuggestionController {
         suggestionData.addSuggestion(newSugg);
     }
 
+    public void viewAllSuggestionsRecords() {
+        System.out.println("Finding all Enquiry Records:");
+        ArrayList<Suggestion> matchedEnquiry = suggestionData.getSuggestions();
+        for (Suggestion suggRecord : matchedEnquiry) {
+            System.out.println("-------\n");
+            System.out.println("Suggestion ID: " + suggRecord.getSuggestionID());
+            System.out.println("Suggestion: " + suggRecord.getSuggestion());
+            System.out.println("Suggestion Approval: " + suggRecord.getApproval());
+            System.out.println("Suggestion By: " + suggRecord.getStudentID());
+            System.out.println("-------\n\n");
+        }
+    }
     public void viewSuggestions(String studentID) {
         System.out.println("Finding all suggestion records of Student: " + studentID + "\n");
         ArrayList<Suggestion> matchedSuggestion = suggestionData.getAllSuggestions(studentID);
