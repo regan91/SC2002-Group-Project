@@ -3,7 +3,6 @@ package HelperPackages.ProcessManagers;
 import HelperPackages.ProcessManagers.Interfaces.IDataManager;
 import HelperPackages.Serializer.BackupUtility;
 import HelperPackages.Serializer.SerializationUtil;
-import UserTypes.CommitteeMember;
 import UserTypes.Staff;
 import UserTypes.Student;
 import UserTypes.User;
@@ -33,20 +32,33 @@ public class DataManager implements IDataManager {
 
     public User formatter(String unSortedData, boolean isStaff){
         String[] splitSRecord = unSortedData.split(",");
-        User newRecord = null;
-        if (isStaff) newRecord = new Staff();
-        else  newRecord = new Student();
-        newRecord.setName(splitSRecord[0].strip());
-        newRecord.setFaculty(splitSRecord[2].strip());
-        newRecord.setUserID(splitSRecord[1].split("@")[0].strip());
-        try{
-            newRecord.setPassword(splitSRecord[3].strip());
-        }catch (Exception e){
-            System.out.println("Debug: Record has no password");
+        if (isStaff) {
+            Staff newRecord = new Staff(
+                    splitSRecord[0].strip(),
+                    splitSRecord[1].split("@")[0].strip(),
+                    splitSRecord[2].strip()
+                    );
+            try{
+                newRecord.setPassword(splitSRecord[3].strip());
+            }catch (Exception e){
+                System.out.println("Debug: Record has no password");
+            }
+            return newRecord;
         }
+        else {
+            Student newRecord = new Student(
+                    splitSRecord[0].strip(),
+                    splitSRecord[1].split("@")[0].strip(),
+                    splitSRecord[2].strip()
+            );
+            try{
+                newRecord.setPassword(splitSRecord[3].strip());
+            }catch (Exception e){
+                System.out.println("Debug: Record has no password");
+            }
 
-        newRecord.setUserType(isStaff);
-        return newRecord;
+            return newRecord;
+        }
     }
 
     public ArrayList<String> generateStaffRecords(ArrayList<Staff> targetList) {
@@ -55,7 +67,6 @@ public class DataManager implements IDataManager {
             String emailAddress = "ntu.edu.sg";
             String combinedData = dataRecord.getName() + "," + dataRecord.getUserID()+ "@" + emailAddress + "," + dataRecord.getFaculty() + "," + dataRecord.getPassword();
             convertedList.add(combinedData);
-            System.out.println(combinedData);
         }
         return convertedList;
     }

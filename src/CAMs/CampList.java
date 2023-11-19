@@ -29,7 +29,7 @@ public class CampList implements ICampList {
     public ArrayList<Camp> getCamps(int campID) {
         ArrayList<Camp> campList = new ArrayList<>();
         for (Camp campEntry : camps) {
-            if (campEntry.getStaticDetails().getCampID() == campID)
+            if (campEntry.getStaticDetails().getCampID() == (campID) )
                 campList.add(campEntry);
         }
         return campList;

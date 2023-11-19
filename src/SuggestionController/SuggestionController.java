@@ -2,6 +2,7 @@ package SuggestionController;
 
 import EnquiryController.Enquiry;
 import SuggestionController.Interfaces.ISuggestionController;
+import UserTypes.CommitteeMember;
 
 import java.util.ArrayList;
 
@@ -9,6 +10,8 @@ import static CAMs.CampApp.campScanner;
 
 public class SuggestionController implements ISuggestionController {
     SuggestionList suggestionData = new SuggestionList();
+
+
     public void submitSuggestion(String studentID, String suggestion) {
         Suggestion newSugg = new Suggestion();
         newSugg.setSuggestion(suggestion);
@@ -81,13 +84,20 @@ public class SuggestionController implements ISuggestionController {
 
     }
 
-    public void approveSuggestion(int suggestionID) {
+    public void approveSuggestion(CommitteeMember committeeUser, int suggestionID) {
         ArrayList<Suggestion> matchedEnquiry = suggestionData.getSuggestionByID(suggestionID);
         for (Suggestion suggRecord : matchedEnquiry) {
             System.out.println("Approving suggestion" + suggestionID + " of student: " + suggRecord.getStudentID() + "\n");
+            committeeUser.addPoints(1);
             suggestionData.dropSuggestion(suggRecord);
             suggestionData.approveSuggestion(suggRecord);
         }
 
+    }
+
+    public String getStudentID(int suggestionID) {
+        ArrayList<Suggestion> matchedEnquiry = suggestionData.getSuggestionByID(suggestionID);
+        Suggestion sugRec = matchedEnquiry.get(0);
+        return sugRec.getStudentID();
     }
 }

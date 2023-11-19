@@ -1,5 +1,6 @@
 package UserTypes.Interfaces;
 
+import UserTypes.CommitteeMember;
 import UserTypes.Staff;
 import UserTypes.Student;
 
@@ -11,6 +12,8 @@ public interface IUserList {
     public ArrayList<Staff> getAllStaff();
     public void addStudent(Student newStudent);
     public void addStaff(Staff newStaff);
+
+    public void upgradeStudent (Student oldStudent, CommitteeMember newMember);
     public Student getStudent(String userID);
     public Staff getStaff(String userID);
 }

@@ -4,40 +4,24 @@ import java.util.ArrayList;
 
 public class Student extends User {
     private ArrayList<Integer> registeredCamp = new ArrayList<>();
-    private boolean isCommittee = false;
-    private int commiteeCamp = -1;
-    private int points = 0;
 
-    public boolean getIsCommittee(){
-        return this.isCommittee;
+    public Student(String name, String userID, String faculty){
+        super(name, userID, faculty, false);
     }
 
-    public int getCommitteeCamp(){
-        return this.commiteeCamp;
-    }
-    public int getPoints(){
-        return points;
-    }
-
-    public void addPoints(int numPoints){
-        points += numPoints;
-    }
-
-    public void setIsCommittee(int campID ){
-        this.isCommittee = true;
-        this.commiteeCamp = campID;
-    }
     public void addRegisteredCamp(int campID){
         registeredCamp.add(campID);
     }
     public void removeRegisteredCamp(int campID){
         int index = 0;
         for (int element: registeredCamp){
-            index += 1;
             if (element == campID){
                 break;
             }
+            index += 1;
         }
+        System.out.println(registeredCamp.size());
+        System.out.println(index);
         registeredCamp.remove(index);
     }
     public ArrayList<Integer> getRegisteredCamps(){

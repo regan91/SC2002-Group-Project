@@ -4,16 +4,18 @@ import java.io.Serializable;
 
 public class User extends AbstractUser implements Serializable {
 
-    @Override
+    public User(String name, String userID, String faculty, boolean userType){
+        this.userID = userID;
+        this.name = name;
+        this.faculty = faculty;
+        this.userType = userType;
+    }
     public void setName(String name) {
         this.name = name;
     }
-
-    @Override
     public String getName() {
         return this.name;
     }
-
     public String getUserID(){
         return userID;
     }
@@ -36,7 +38,7 @@ public class User extends AbstractUser implements Serializable {
         return userType;
     }
     public boolean login(String userId, String password){
-        if ((this.password.contains(password)) && (this.userID.contains(userId))){
+        if ((this.password.equals(password)) && (this.userID.equals(userId))){
             return true;
         }
         return false;

@@ -6,14 +6,19 @@ import java.util.ArrayList;
 
 public class UserList implements IUserList {
 
-    ArrayList<Student> studentList = new ArrayList<>();
-    ArrayList<Staff> staffList = new ArrayList<>();
+    private ArrayList<Student> studentList = new ArrayList<>();
+    private ArrayList<Staff> staffList = new ArrayList<>();
     public void addStudent(Student newStudent) {
         studentList.add(newStudent);
     }
 
     public void addStaff(Staff newStaff) {
         staffList.add(newStaff);
+    }
+
+    public void upgradeStudent (Student oldStudent, CommitteeMember newMember){
+        this.studentList.add(newMember);
+        this.studentList.remove(oldStudent);
     }
 
     public ArrayList<Student> getAllStudent(){return  this.studentList;}

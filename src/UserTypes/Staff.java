@@ -9,6 +9,10 @@ public class Staff extends User{
         return createdCampIDs;
     }
 
+    public Staff(String name, String userID, String faculty){
+        super(name, userID, faculty, true);
+    }
+
     public void addNewCamp(int campID){
         createdCampIDs.add(campID);
     }

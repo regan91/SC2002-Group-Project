@@ -2,6 +2,7 @@ package SuggestionController;
 
 import EnquiryController.Enquiry;
 import SuggestionController.Interfaces.ISuggestionList;
+import UserTypes.CommitteeMember;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,7 @@ public class SuggestionList implements ISuggestionList {
     public void dropSuggestion(Suggestion oldSuggestion) {
         suggestions.remove(oldSuggestion);
     }
+
     public void approveSuggestion(Suggestion oldSuggestion) {
         oldSuggestion.setApproval(true);
         suggestions.remove(oldSuggestion);

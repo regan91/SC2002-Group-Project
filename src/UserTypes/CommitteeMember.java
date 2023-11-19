@@ -1,12 +1,14 @@
 package UserTypes;
 
 public class CommitteeMember extends Student{
-    private int campInCharge = -1;
+    private int inChargeOf = -1;
     private int points;
 
-    public CommitteeMember(int campID){
-        this.campInCharge = campID;
+    public CommitteeMember(Student oldState ,int campID){
+        super(oldState.name, oldState.userID, oldState.faculty);
+        this.inChargeOf = campID;
         points = 0;
+
     }
 
     public int getPoints(){
@@ -17,10 +19,10 @@ public class CommitteeMember extends Student{
         points += numPoints;
     }
     public void setInChargeCamp(int campID){
-        this.campInCharge = campID;
+        this.inChargeOf = campID;
     }
 
     public int getInChargeCamp(){
-        return campInCharge;
+        return inChargeOf;
     }
 }
