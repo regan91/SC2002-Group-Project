@@ -8,5 +8,6 @@ public interface IUserData {
     public void setUserID(String userID);
     public String getFaculty();
     public void setFaculty(String faculty);
+    public String getPassword();
     public void setPassword(String password);
 }

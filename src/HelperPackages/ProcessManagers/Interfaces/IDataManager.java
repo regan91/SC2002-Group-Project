@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IDataManager {
-    List<String> reader(String filePath);
+    List<String> reader(String filePath, String alternative);
     void writer(String filePath, List<String> storeData);
 
     User formatter(String recordData, boolean isStaffMember);

@@ -17,7 +17,7 @@ public class OptionsPrinter {
     }
     public void StaffLoginOptions(User loggedUser){
         System.out.println();
-        System.out.println("Welcome user: " + loggedUser.getUserID());
+        System.out.println("Welcome user: " + loggedUser.getName());
         System.out.println("Staff Options:");
         System.out.println("1. Camp Menu");
         System.out.println("2. Enquiries Menu");
@@ -32,12 +32,28 @@ public class OptionsPrinter {
 
     public void StudentLoginOptions(User loggedUser){
         System.out.println();
-        System.out.println("Welcome user: " + loggedUser.getUserID());
+        System.out.println("Welcome user: " + loggedUser.getName());
         System.out.println("Student Options:");
         System.out.println("1. Camp Menu");
         System.out.println("2. Enquiries Menu");
         System.out.println("3. Change Password");
         System.out.println("4. Logout");
+        System.out.println("Please enter an option:");
+
+    }
+
+    public void committeeLoginOptions(User loggedUser){
+        System.out.println();
+        System.out.println("Welcome user: " + loggedUser.getName());
+        System.out.println("Student Options:");
+        System.out.println("1. Camp Menu");
+        System.out.println("2. Enquiries Menu");
+        System.out.println("3. Change Password");
+        System.out.println(" ---- ");
+        System.out.println("Committee Member Options:");
+        System.out.println("4. Suggestions Menu");
+        System.out.println("5. Generate Report");
+        System.out.println("6. Logout");
         System.out.println("Please enter an option:");
 
     }
@@ -77,9 +93,10 @@ public class OptionsPrinter {
         System.out.println("2. Camp Dates");
         System.out.println("3. Camp Registration Closing Date");
         System.out.println("4. Camp Open Status");
-        System.out.println("5. Location");
-        System.out.println("6. Toggle Visibility");
-        System.out.println("7. Return to previous menu");
+        System.out.println("5. Camp Max Participants");
+        System.out.println("6. Location");
+        System.out.println("7. Toggle Visibility");
+        System.out.println("8. Return to previous menu");
         System.out.println("Please enter an option:");
 
     }
@@ -96,6 +113,19 @@ public class OptionsPrinter {
 
     }
 
+    public void enquiriesOptions(){
+
+        System.out.println();
+        System.out.println("Enquiries Options:");
+        System.out.println("1. Show All Enquiries");
+        System.out.println("2. Show Enquiry");
+        System.out.println("3. Edit Enquiry");
+        System.out.println("4. Delete Enquiry");
+        System.out.println("5. Return to previous menu");
+        System.out.println("Please enter an option:");
+
+    }
+
 
     public void suggestionPrivilegedOptions(){
 
@@ -104,6 +134,18 @@ public class OptionsPrinter {
         System.out.println("1. Show All Suggestion");
         System.out.println("2. Show Suggestion");
         System.out.println("3. Approve Suggestion");
+        System.out.println("4. Return to previous menu");
+        System.out.println("Please enter an option:");
+
+    }
+
+    public void suggestionOptions(){
+
+        System.out.println();
+        System.out.println("Suggestion Options:");
+        System.out.println("1. Show All Suggestions");
+        System.out.println("2. Show Suggestion");
+        System.out.println("3. Create Suggestion");
         System.out.println("4. Return to previous menu");
         System.out.println("Please enter an option:");
 
@@ -124,7 +166,7 @@ public class OptionsPrinter {
         System.out.println("General Report for Camp " + campDetails.getStaticDetails().getCampID());
         System.out.println("------");
         System.out.println("Camp Name                      :" + campDetails.getStaticDetails().getCampID());
-        System.out.println("Camp Staff-In-Charge           :" + campDetails.getStaticDetails().getStaffIC());
+        System.out.println("Camp Staff-In-Charge           :" + campDetails.getStaticDetails().getStaffIC().getUserID());
         System.out.println("Camp Dates                     :" + campDetails.getDynamicDetails().getCampDates());
         System.out.println("Camp Registration Closing Date :" + campDetails.getDynamicDetails().getClosingDate());
         System.out.println("Camp Open Status               :" + campDetails.getDynamicDetails().getOpenStatus());
@@ -139,7 +181,7 @@ public class OptionsPrinter {
         System.out.println("General Report for Camp " + campDetails.getStaticDetails().getCampID());
         System.out.println("------");
         System.out.println("Camp Name                      :" + campDetails.getStaticDetails().getCampID());
-        System.out.println("Camp Staff-In-Charge           :" + campDetails.getStaticDetails().getStaffIC());
+        System.out.println("Camp Staff-In-Charge           :" + campDetails.getStaticDetails().getStaffIC().getUserID());
         System.out.println("Camp Dates                     :" + campDetails.getDynamicDetails().getCampDates());
         System.out.println("Camp Registration Closing Date :" + campDetails.getDynamicDetails().getClosingDate());
         System.out.println("Camp Open Status               :" + campDetails.getDynamicDetails().getOpenStatus());

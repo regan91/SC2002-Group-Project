@@ -20,7 +20,6 @@ public class CampApp {
 
     public static final Scanner campScanner = new Scanner(System.in);
 
-    public static User loggedInAccount = null;
     public static void main(String[] args) {
 
         boolean failState = false;
@@ -34,11 +33,11 @@ public class CampApp {
 
         System.out.println("Data has loaded, CAMs is ready!");
 
-        optionPrinter.loginOptions();
-        String loginInput = campScanner.nextLine();
-
 
         while (!failState){
+            User loggedInAccount = null;
+            optionPrinter.loginOptions();
+            String loginInput = campScanner.nextLine();
             switch (loginInput){
                 case "1": {
                     // Staff Login
@@ -57,10 +56,9 @@ public class CampApp {
 
                         System.out.println("Login successful!");
 
-                        optionPrinter.StaffLoginOptions(loggedInAccount);
-                        String staffOption = campScanner.nextLine();
-
                         while (loggedIn){
+                            optionPrinter.StaffLoginOptions(loggedInAccount);
+                            String staffOption = campScanner.nextLine();
                             switch(staffOption){
                                 // Printing Staff Options
                                 case "1": {
@@ -79,8 +77,6 @@ public class CampApp {
                                                 for (Camp campRec: campCollection){
                                                     cPrinter.printCampBasicDetails(campRec);
                                                 }
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
                                                 break;
                                             }
                                             case "2": {
@@ -90,12 +86,10 @@ public class CampApp {
                                                 for (Camp campRec: campCollection){
                                                     cPrinter.printCreatedCamp(campRec);
                                                 }
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
                                                 break;
                                             }
                                             case "3": {
-                                                // printing out User created camps
+                                                // printing out specific camps
                                                 System.out.println("Please input camp ID: ");
                                                 int desiredCamp = 0;
                                                 try {
@@ -103,16 +97,15 @@ public class CampApp {
                                                     System.out.println("Showing detailed information: ");
                                                     ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
                                                     for (Camp campRec: campCollection){
-                                                        cPrinter.printCreatedCamp(campRec);
+                                                        cPrinter.printDetailedCamp(campRec);
                                                     }
                                                 }catch (Exception e){
                                                     System.out.println("Invalid camp ID");
                                                 }
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
                                                 break;
                                             }
                                             case "4": {
+                                                // Creating new camp
                                                 String changeValue = "";
                                                 System.out.println("Creating New Camp: ");
                                                 System.out.println("Please Camp Name: ");
@@ -122,11 +115,10 @@ public class CampApp {
 
                                                 System.out.println("New Camp has been updated!");
 
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
                                                 break;
                                             }
                                             case "5": {
+                                                // Editing Camp Details
                                                 System.out.println("Please input camp ID: ");
                                                 Camp desiredCamp = null;
                                                 try {
@@ -134,19 +126,16 @@ public class CampApp {
                                                     desiredCamp = obtainedCamps.get(0);
                                                 }catch (Exception e){
                                                     System.out.println("Invalid camp ID");
-                                                    optionPrinter.StaffCampMenuOptions();
-                                                    menuOption = campScanner.nextLine();
                                                     break;
                                                 }
 
                                                 System.out.println("Editing camps details: ");
                                                 optionPrinter.campEditOptions();
                                                 String editOptions = campScanner.nextLine();
-                                                while (!editOptions.contains("7")) {
-                                                    optionPrinter.campEditOptions();
-                                                    editOptions = campScanner.nextLine();
+                                                while (!editOptions.contains("8")) {
                                                     switch (editOptions){
                                                         case "1":{
+                                                            //Editing Camp Name
                                                             System.out.println("Please enter new name: ");
                                                             String changeValue = campScanner.nextLine();
                                                             desiredCamp.getDynamicDetails().setName(changeValue);
@@ -154,6 +143,7 @@ public class CampApp {
                                                             break;
                                                         }
                                                         case "2": {
+                                                            // Editing Dates of Camp
                                                             // This has the LocalDate datatypes in play, seperating from normal parsing
                                                             System.out.println("Please enter start date: (DD-MM-YYYY)");
                                                             String startDate = campScanner.nextLine();
@@ -181,6 +171,7 @@ public class CampApp {
                                                             break;
                                                         }
                                                         case "3": {
+                                                            // Editing Camp Reg Closing Date
                                                             // This has the LocalDate datatypes in play, seperating from normal parsing
                                                             System.out.println("Please registration closing date: (DD-MM-YYYY)");
                                                             String date = campScanner.nextLine();
@@ -200,6 +191,7 @@ public class CampApp {
                                                             break;
                                                         }
                                                         case "4": {
+                                                            // Toggling Open Status
                                                             System.out.println("Please set Camp's open status: [T/F]");
                                                             String changeValue = campScanner.nextLine();
                                                             if (changeValue.contains("T"))
@@ -210,14 +202,25 @@ public class CampApp {
                                                             break;
                                                         }
                                                         case "5": {
+                                                            // Max Participants
+                                                            System.out.println("Please set Camp's Max Number of Participants: ");
+                                                            String changeValue = campScanner.nextLine();
+                                                            desiredCamp.getDynamicDetails().setMaxMember(Integer.parseInt(changeValue));
+
+                                                            System.out.println("Camp Max Participants has been updated!");
+                                                            break;
+                                                        }
+                                                        case "6": {
+                                                            // Editing Location
                                                             System.out.println("Please set Camp's location: ");
                                                             String changeValue = campScanner.nextLine();
                                                             desiredCamp.getDynamicDetails().setLocation(changeValue);
 
-                                                            System.out.println("Camp status has been updated!");
+                                                            System.out.println("Camp loation has been updated!");
                                                             break;
                                                         }
-                                                        case "6": {
+                                                        case "7": {
+                                                            // Toggling Visibility
                                                             System.out.println("Please toggle Camp's visibility: [T/F]");
                                                             String changeValue = campScanner.nextLine();
                                                             if (changeValue.contains("T"))
@@ -233,7 +236,8 @@ public class CampApp {
                                                             break;
                                                         }
                                                     }
-                                                    break;
+                                                    optionPrinter.campEditOptions();
+                                                    editOptions = campScanner.nextLine();
                                                 }
                                                 System.out.println("Returning to previous menu...");
                                                 optionPrinter.StaffCampMenuOptions();
@@ -241,6 +245,7 @@ public class CampApp {
 
                                             }
                                             case "6": {
+                                                // Deleting Camp
                                                 System.out.println("Deleting Camp: ");
                                                 System.out.println("Please Camp ID: ");
                                                 CampListBrain.getList().removeCamp(Integer.parseInt(campScanner.nextLine()));
@@ -253,11 +258,11 @@ public class CampApp {
                                             }
                                             default:{
                                                 System.out.println("Invalid option");
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
                                                 break;
                                             }
                                         }
+                                        optionPrinter.StaffCampMenuOptions();
+                                        menuOption = campScanner.nextLine();
                                     }
 
                                     System.out.println("Returning to previous menu...");
@@ -273,9 +278,6 @@ public class CampApp {
 
                                     }catch (Exception e){
                                         System.out.println("Invalid camp ID");
-                                        optionPrinter.StaffLoginOptions(loggedInAccount);
-                                        staffOption = campScanner.nextLine();
-
                                         break;
                                     }
 
@@ -283,8 +285,6 @@ public class CampApp {
                                     String enquiryOption = campScanner.nextLine();
 
                                     while (!enquiryOption.contains("4")){
-                                        optionPrinter.enquiriesPrivilegedOptions();
-                                        enquiryOption = campScanner.nextLine();
                                         switch (enquiryOption){
                                             case "1": {
                                                 System.out.println("Showing all Enquiries for Camp " + desiredCamp.getStaticDetails().getCampID());
@@ -318,8 +318,10 @@ public class CampApp {
                                             }
 
                                         }
-                                        System.out.println("Returning to previous menu...");
+                                        optionPrinter.enquiriesPrivilegedOptions();
+                                        enquiryOption = campScanner.nextLine();
                                     }
+                                    System.out.println("Returning to previous menu...");
                                     break;
                                 }
                                 case "3": {
@@ -341,8 +343,6 @@ public class CampApp {
                                     optionPrinter.suggestionPrivilegedOptions();
                                     String suggestionOption = campScanner.nextLine();
                                     while (!suggestionOption.contains("4")){
-                                        optionPrinter.enquiriesPrivilegedOptions();
-                                        suggestionOption = campScanner.nextLine();
                                         switch (suggestionOption){
                                             case "1": {
                                                 System.out.println("Showing all Suggestions for Camp " + desiredCamp.getStaticDetails().getCampID());
@@ -374,8 +374,10 @@ public class CampApp {
                                             }
 
                                         }
-                                        System.out.println("Returning to previous menu...");
+                                        optionPrinter.enquiriesPrivilegedOptions();
+                                        suggestionOption = campScanner.nextLine();
                                     }
+                                    System.out.println("Returning to previous menu...");
                                     break;
                                 }
                                 case "4": {
@@ -398,8 +400,6 @@ public class CampApp {
                                     String reportOption = campScanner.nextLine();
 
                                     while (!reportOption.contains("3")){
-                                        optionPrinter.enquiriesPrivilegedOptions();
-                                        reportOption = campScanner.nextLine();
                                         switch (reportOption){
                                             case "1": {
                                                 System.out.println("Generating General Report for Camp " + desiredCamp.getStaticDetails().getCampID());
@@ -426,19 +426,19 @@ public class CampApp {
                                             }
 
                                         }
-                                        System.out.println("Returning to previous menu...");
+                                        optionPrinter.enquiriesPrivilegedOptions();
+                                        reportOption = campScanner.nextLine();
                                     }
+                                    System.out.println("Returning to previous menu...");
                                     break;
                                 }
                                 case "5": {
                                     // Change Password Menu
-
                                     System.out.println("Please enter new password ");
                                     String newPass = campScanner.nextLine();
 
                                     loggedInAccount.passwordChange(newPass);
                                     break;
-
                                 }
                                 case "6": {
                                     // Staff Logging Out
@@ -469,310 +469,496 @@ public class CampApp {
                         boolean loggedIn = true;
 
                         System.out.println("Login successful!");
+                        Student tempStudent = (Student) loggedInAccount;
+                        if (!tempStudent.getIsCommittee()) {
+                            // NOT AN IC
+                            while (loggedIn){
+                                optionPrinter.StudentLoginOptions(loggedInAccount);
+                                String studentOption = campScanner.nextLine();
+                                switch(studentOption){
+                                    // Printing Student Options
+                                    case "1": {
+                                        // Student Menu Options
+                                        optionPrinter.StudentCampMenuOptions();
+                                        CampPrinter cPrinter = new CampPrinter();
+                                        String menuOption = campScanner.nextLine();
 
-                        optionPrinter.StudentLoginOptions(loggedInAccount);
-                        String studentOption = campScanner.nextLine();
-
-                        while (loggedIn){
-                            switch(studentOption){
-                                // Printing Student Options
-                                case "1": {
-                                    // Student Menu Options
-                                    optionPrinter.StudentCampMenuOptions();
-                                    CampPrinter cPrinter = new CampPrinter();
-                                    String menuOption = campScanner.nextLine();
-
-                                    while (!menuOption.contains("7")) {
-                                        // Student Camp Options
-                                        switch (menuOption){
-                                            case "1": {
-                                                // basic camp details will only show camp ID, camp Name, camp Dates
-                                                System.out.println("Showing all camps: ");
-                                                ArrayList<Camp> campCollection = CampListBrain.getAllCamps(loggedInAccount.getFaculty());
-                                                for (Camp campRec: campCollection){
-                                                    cPrinter.printCampBasicDetails(campRec);
-                                                }
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
-                                                break;
-                                            }
-                                            case "2": {
-                                                // printing out joined camps
-                                                System.out.println("Showing joined camps: ");
-                                                Student tempStd = (Student) loggedInAccount;
-                                                ArrayList<Integer> retrievedCamps = tempStd.getRegisteredCamps();
-                                                for (int campID: retrievedCamps){
-                                                    ArrayList<Camp> retrievedCamp = CampListBrain.getCamp(campID);
-                                                    Camp targetCamp = retrievedCamp.get(0);
-                                                    cPrinter.printCampBasicDetails(targetCamp);
-                                                }
-                                                break;
-                                            }
-                                            case "3": {
-                                                // printing out Camp details camps
-                                                System.out.println("Please input camp ID: ");
-                                                int desiredCamp = 0;
-                                                try {
-                                                    desiredCamp = Integer.parseInt(campScanner.nextLine());
-                                                    System.out.println("Showing detailed information: ");
-                                                    ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
+                                        while (!menuOption.contains("6")) {
+                                            // Student Camp Options
+                                            switch (menuOption){
+                                                case "1": {
+                                                    // basic camp details will only show camp ID, camp Name, camp Dates
+                                                    System.out.println("Showing all camps: ");
+                                                    ArrayList<Camp> campCollection = CampListBrain.getAllCamps(loggedInAccount.getFaculty());
                                                     for (Camp campRec: campCollection){
-                                                        cPrinter.printCreatedCamp(campRec);
+                                                        cPrinter.printCampBasicDetails(campRec);
                                                     }
-                                                }catch (Exception e){
-                                                    System.out.println("Invalid camp ID");
+                                                    break;
                                                 }
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
-                                                break;
-                                            }
-                                            case "4": {
-                                                // Joining Camp
-                                                System.out.println("Please input camp ID: ");
-                                                int desiredCamp = 0;
-                                                try {
-                                                    desiredCamp = Integer.parseInt(campScanner.nextLine());
-                                                    System.out.println("Register as committee member?: [Y/N] ");
-                                                    String committeeMember = campScanner.nextLine();
-                                                    CommitteeMember stdMember = (CommitteeMember) loggedInAccount;
-                                                    if (stdMember.getInChargeCamp() == -1){
-                                                        boolean isCommitee = false;
-                                                        if (committeeMember.contains("Y")) isCommitee = true;
+                                                case "2": {
+                                                    // printing out joined camps
+                                                    System.out.println("Showing joined camps: ");
+                                                    Student tempStd = (Student) loggedInAccount;
+                                                    ArrayList<Integer> retrievedCamps = tempStd.getRegisteredCamps();
+                                                    for (int campID: retrievedCamps){
+                                                        ArrayList<Camp> retrievedCamp = CampListBrain.getCamp(campID);
+                                                        Camp targetCamp = retrievedCamp.get(0);
+                                                        cPrinter.printCampBasicDetails(targetCamp);
+                                                    }
+                                                    break;
+                                                }
+                                                case "3": {
+                                                    // printing out Camp details camps
+                                                    System.out.println("Please input camp ID: ");
+                                                    int desiredCamp = 0;
+                                                    try {
+                                                        desiredCamp = Integer.parseInt(campScanner.nextLine());
+                                                        System.out.println("Showing detailed information: ");
+                                                        ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
+                                                        for (Camp campRec: campCollection){
+                                                            cPrinter.printCreatedCamp(campRec);
+                                                        }
+                                                    }catch (Exception e){
+                                                        System.out.println("Invalid camp ID");
+                                                    }
+                                                    break;
+                                                }
+                                                case "4": {
+                                                    // Joining Camp
+                                                    System.out.println("Please input camp ID: ");
+                                                    int desiredCamp = 0;
+                                                    try {
+                                                        desiredCamp = Integer.parseInt(campScanner.nextLine());
+
                                                         ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
                                                         Camp targetCamp = campCollection.get(0);
-                                                        targetCamp.getStaticDetails().getRegistrations().registerCamp(isCommitee, loggedInAccount.getUserID());
+                                                        if (targetCamp.getStaticDetails().getRegistrations().isBlockedMember(loggedInAccount.getUserID())){
+                                                            // if the person is blocked
+                                                            System.out.println("You have withdrawn from the camp!");
+                                                            break;
+                                                        }
+                                                        System.out.println("Register as committee member?: [Y/N] ");
+                                                        String committeeMember = campScanner.nextLine();
+                                                        if (!((Student) loggedInAccount).getIsCommittee()){
+                                                            if (committeeMember.contains("Y")) {
+                                                                if (targetCamp.getDynamicDetails().getCurrentCommitteeNum() > 0){
+                                                                    targetCamp.getStaticDetails().getRegistrations().registerCamp(true, loggedInAccount.getUserID());
+                                                                    targetCamp.getDynamicDetails().decCurrentCommitteNum();
+                                                                    System.out.println("Registered for the camp as Committee Member!");
+                                                                    ((Student) loggedInAccount).setIsCommittee(desiredCamp);
+                                                                    ((Student) loggedInAccount).addRegisteredCamp(targetCamp.getStaticDetails().getCampID());
+                                                                }
+                                                            }else {
+                                                                if (targetCamp.getDynamicDetails().getAvailableSlots() > 0){
+                                                                targetCamp.getStaticDetails().getRegistrations().registerCamp(false, loggedInAccount.getUserID());
+                                                                targetCamp.getDynamicDetails().decMemberNum();
+                                                                System.out.println("Registered for the camp as participant!");}
+                                                                ((Student) loggedInAccount).addRegisteredCamp(targetCamp.getStaticDetails().getCampID());
+                                                            }
+                                                        }
+                                                        else{
+                                                            System.out.println("Not possible to register for the camp!");
+                                                        }
 
-                                                        System.out.println("Registered for the camp!");
-                                                    }else {
-                                                        System.out.println("Not possible to register for the camp!");
-
+                                                    }catch (Exception e){
+                                                        System.out.println("Exception: " + e);
+                                                        System.out.println("Error: Either invalid Camp ID or camp is already full!");
                                                     }
-
-                                                }catch (Exception e){
-                                                    System.out.println("Invalid camp ID");
+                                                    break;
                                                 }
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
-                                                break;
+                                                case "5": {
+                                                    System.out.println("Please input camp ID: ");
+                                                    int desiredCamp = 0;
+                                                    try {
+                                                        desiredCamp = Integer.parseInt(campScanner.nextLine());
+                                                        if (!((Student) loggedInAccount).getIsCommittee()){
+                                                            ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
+                                                            Camp targetCamp = campCollection.get(0);
+                                                            targetCamp.getStaticDetails().getRegistrations().withdrawCamp(loggedInAccount.getUserID());
+                                                            targetCamp.getDynamicDetails().incMemberNum();
+                                                            ((Student) loggedInAccount).removeRegisteredCamp(desiredCamp);
+                                                            System.out.println("Withdrawn from the camp!");
+                                                        }else {
+                                                            if (((Student) loggedInAccount).getCommitteeCamp() == desiredCamp)
+                                                            System.out.println("Unable to withdraw from camp! You are committee member!");
+
+                                                        }
+
+                                                    }catch (Exception e){
+                                                        System.out.println(e);
+                                                        System.out.println("Invalid camp ID");
+                                                    }
+                                                    break;
+
+                                                }
+                                                default:{
+                                                    System.out.println("Invalid option");
+                                                    break;
+                                                }
                                             }
-                                            case "5": {
-                                                System.out.println("Please input camp ID: ");
-                                                int desiredCamp = 0;
-                                                try {
-                                                    desiredCamp = Integer.parseInt(campScanner.nextLine());
-                                                    CommitteeMember stdMember = (CommitteeMember) loggedInAccount;
-                                                    if (stdMember.getInChargeCamp() != desiredCamp){
+                                            optionPrinter.StudentCampMenuOptions();
+                                            menuOption = campScanner.nextLine();
+                                        }
+
+                                        System.out.println("Returning to previous menu...");
+                                        break;
+                                    }
+                                    case "2": {
+                                        // Enquiries Menu
+                                        System.out.println("Please input camp ID: ");
+                                        Camp desiredCamp = null;
+                                        try {
+                                            ArrayList<Camp> campCollection = CampListBrain.getCamp(Integer.parseInt(campScanner.nextLine()));
+                                            desiredCamp = campCollection.get(0);
+
+                                        }catch (Exception e){
+                                            System.out.println("Invalid camp ID");
+                                            break;
+                                        }
+
+                                        optionPrinter.enquiriesOptions();
+                                        String enquiryOption = campScanner.nextLine();
+
+                                        while (!enquiryOption.contains("5")){
+                                            switch (enquiryOption){
+                                                case "1": {
+                                                    // Show All Enquiries
+                                                    System.out.println("Showing all Enquiries for Camp " + desiredCamp.getStaticDetails().getCampID());
+                                                    desiredCamp.getStaticDetails().getEnquiries().viewAllEnquiries(loggedInAccount.getUserID());
+                                                    break;
+                                                }
+                                                case "2": {
+                                                    // Show Specific Enquiry
+                                                    System.out.println("Please input Enquiry ID: ");
+                                                    String enqID = campScanner.nextLine();
+
+                                                    System.out.println("Showing all Enquiries for Camp " + desiredCamp.getStaticDetails().getCampID());
+                                                    desiredCamp.getStaticDetails().getEnquiries().viewEnquiry(loggedInAccount.getUserID(), Integer.parseInt(enqID));
+                                                    break;
+                                                }
+                                                case "3": {
+                                                    // Edit Enquiry
+                                                    System.out.println("Please input Enquiry ID: ");
+                                                    String enqID = campScanner.nextLine();
+                                                    System.out.println("Please enter your changed query: ");
+                                                    String newQuery = campScanner.nextLine();
+                                                    desiredCamp.getStaticDetails().getEnquiries().editEnquiry(loggedInAccount.getUserID(), Integer.parseInt(enqID), newQuery);
+                                                    System.out.println("Edited Enquiry!");
+                                                    break;
+                                                }
+                                                case "4": {
+                                                    // Delete Enquiry
+                                                    System.out.println("Please input Enquiry ID: ");
+                                                    String enqID = campScanner.nextLine();
+                                                    desiredCamp.getStaticDetails().getEnquiries().deleteEnquiry(loggedInAccount.getUserID(), Integer.parseInt(enqID));
+
+                                                    System.out.println("Deleted Enquiry");
+                                                    break;
+                                                }
+                                                default:{
+                                                    System.out.println("Invalid option");
+                                                    break;
+                                                }
+
+                                            }
+                                            optionPrinter.enquiriesOptions();
+                                            enquiryOption = campScanner.nextLine();
+                                        }
+                                        System.out.println("Returning to previous menu...");
+                                        break;
+                                    }
+                                    case "3": {
+                                        // Change Password Menu
+
+                                        System.out.println("Please enter new password ");
+                                        String newPass = campScanner.nextLine();
+
+                                        loggedInAccount.passwordChange(newPass);
+                                        break;
+
+                                    }
+                                    case "4": {
+                                        // Student Logging Out
+                                        loggedIn = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                        }
+                        else {
+                            while (loggedIn){
+                                optionPrinter.committeeLoginOptions(loggedInAccount);
+                                String committeeOption = campScanner.nextLine();
+                                switch(committeeOption){
+                                    // Printing Student Options
+                                    case "1": {
+                                        // Student Menu Options
+                                        optionPrinter.StudentCampMenuOptions();
+                                        CampPrinter cPrinter = new CampPrinter();
+                                        String menuOption = campScanner.nextLine();
+
+                                        while (!menuOption.contains("7")) {
+                                            // Student Camp Options
+                                            switch (menuOption){
+                                                case "1": {
+                                                    // basic camp details will only show camp ID, camp Name, camp Dates
+                                                    System.out.println("Showing all camps: ");
+                                                    ArrayList<Camp> campCollection = CampListBrain.getAllCamps(loggedInAccount.getFaculty());
+                                                    for (Camp campRec: campCollection){
+                                                        cPrinter.printCampBasicDetails(campRec);
+                                                    }
+                                                    break;
+                                                }
+                                                case "2": {
+                                                    // printing out joined camps
+                                                    System.out.println("Showing joined camps: ");
+                                                    Student tempStd = (Student) loggedInAccount;
+                                                    ArrayList<Integer> retrievedCamps = tempStd.getRegisteredCamps();
+                                                    for (int campID: retrievedCamps){
+                                                        ArrayList<Camp> retrievedCamp = CampListBrain.getCamp(campID);
+                                                        Camp targetCamp = retrievedCamp.get(0);
+                                                        cPrinter.printCampBasicDetails(targetCamp);
+                                                    }
+                                                    break;
+                                                }
+                                                case "3": {
+                                                    // printing out Camp details camps
+                                                    System.out.println("Please input camp ID: ");
+                                                    int desiredCamp = 0;
+                                                    try {
+                                                        desiredCamp = Integer.parseInt(campScanner.nextLine());
+                                                        System.out.println("Showing detailed information: ");
+                                                        ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
+                                                        for (Camp campRec: campCollection){
+                                                            cPrinter.printCreatedCamp(campRec);
+                                                        }
+                                                    }catch (Exception e){
+                                                        System.out.println("Invalid camp ID");
+                                                    }
+                                                    break;
+                                                }
+                                                case "4": {
+                                                    // Joining Camp
+                                                    System.out.println("Please input camp ID: ");
+                                                    int desiredCamp = 0;
+                                                    try {
+                                                        desiredCamp = Integer.parseInt(campScanner.nextLine());
+
                                                         ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
                                                         Camp targetCamp = campCollection.get(0);
-                                                        targetCamp.getStaticDetails().getRegistrations().withdrawCamp(loggedInAccount.getUserID());
+                                                        if (targetCamp.getStaticDetails().getRegistrations().isBlockedMember(loggedInAccount.getUserID())){
+                                                            // if the person is blocked
+                                                            System.out.println("You have withdrawn from the camp!");
+                                                            break;
+                                                        }
+                                                        targetCamp.getStaticDetails().getRegistrations().registerCamp(false, loggedInAccount.getUserID());
 
                                                         System.out.println("Registered for the camp!");
-                                                    }else {
-                                                        System.out.println("Unable to withdraw from camp! You are committee member!");
+                                                        ((CommitteeMember) loggedInAccount).addRegisteredCamp(targetCamp.getStaticDetails().getCampID());
 
+
+                                                    }catch (Exception e){
+                                                        System.out.println("Error: Either invalid Camp ID or camp is already full!");
                                                     }
-
-                                                }catch (Exception e){
-                                                    System.out.println("Invalid camp ID");
+                                                    break;
                                                 }
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
-                                                break;
+                                                case "5": {
+                                                    System.out.println("Please input camp ID: ");
+                                                    int desiredCamp = 0;
+                                                    try {
+                                                        desiredCamp = Integer.parseInt(campScanner.nextLine());
+                                                        if (((Student) loggedInAccount).getCommitteeCamp() == desiredCamp){
+                                                            System.out.println("Unable to withdraw from camp! You are committee member!");
+                                                            break;
+                                                        }
+                                                        if (!((Student) loggedInAccount).getIsCommittee()){
+                                                            ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
+                                                            Camp targetCamp = campCollection.get(0);
+                                                            targetCamp.getStaticDetails().getRegistrations().withdrawCamp(loggedInAccount.getUserID());
+                                                            targetCamp.getDynamicDetails().incMemberNum();
+                                                            ((Student) loggedInAccount).removeRegisteredCamp(desiredCamp);
+                                                            System.out.println("Withdrawn from the camp!");
+                                                        }
 
+                                                    }catch (Exception e){
+                                                        System.out.println(e);
+                                                        System.out.println("Invalid camp ID");
+                                                    }
+                                                    break;
+
+                                                }
+                                                default:{
+                                                    System.out.println("Invalid option");
+                                                    break;
+                                                }
                                             }
-                                            default:{
-                                                System.out.println("Invalid option");
-                                                optionPrinter.StaffCampMenuOptions();
-                                                menuOption = campScanner.nextLine();
-                                                break;
-                                            }
+                                            optionPrinter.StudentCampMenuOptions();
+                                            menuOption = campScanner.nextLine();
                                         }
-                                    }
 
-                                    System.out.println("Returning to previous menu...");
-                                    break;
-                                }
-                                case "2": {
-                                    // Enquiries Menu
-                                    System.out.println("Please input camp ID: ");
-                                    Camp desiredCamp = null;
-                                    try {
-                                        ArrayList<Camp> campCollection = CampListBrain.getCamp(Integer.parseInt(campScanner.nextLine()));
-                                        desiredCamp = campCollection.get(0);
-
-                                    }catch (Exception e){
-                                        System.out.println("Invalid camp ID");
-                                        optionPrinter.StaffLoginOptions(loggedInAccount);
-                                        studentOption = campScanner.nextLine();
-
+                                        System.out.println("Returning to previous menu...");
                                         break;
                                     }
+                                    case "2": {
+                                        // Enquiries Menu
+                                        System.out.println("Please input camp ID: ");
+                                        Camp desiredCamp = null;
+                                        try {
+                                            ArrayList<Camp> campCollection = CampListBrain.getCamp(Integer.parseInt(campScanner.nextLine()));
+                                            desiredCamp = campCollection.get(0);
 
-                                    optionPrinter.enquiriesPrivilegedOptions();
-                                    String enquiryOption = campScanner.nextLine();
+                                        }catch (Exception e){
+                                            System.out.println("Invalid camp ID");
+                                            optionPrinter.StudentLoginOptions(loggedInAccount);
+                                            committeeOption = campScanner.nextLine();
 
-                                    while (!enquiryOption.contains("4")){
-                                        optionPrinter.enquiriesPrivilegedOptions();
-                                        enquiryOption = campScanner.nextLine();
-                                        switch (enquiryOption){
-                                            case "1": {
-                                                System.out.println("Showing all Enquiries for Camp " + desiredCamp.getStaticDetails().getCampID());
-                                                desiredCamp.getStaticDetails().getEnquiries().viewEnquiriesRecords();
-                                                break;
+                                            break;
+                                        }
+
+                                        optionPrinter.enquiriesOptions();
+                                        String enquiryOption = campScanner.nextLine();
+
+                                        while (!enquiryOption.contains("3")){
+                                            switch (enquiryOption){
+                                                case "1": {
+                                                    // Show All Enquiries
+                                                    System.out.println("Showing all Enquiries for Camp " + desiredCamp.getStaticDetails().getCampID());
+                                                    desiredCamp.getStaticDetails().getEnquiries().viewAllEnquiries(loggedInAccount.getUserID());
+                                                    break;
+                                                }
+                                                case "2": {
+                                                    // Show Specific Enquiry
+                                                    System.out.println("Please input Enquiry ID: ");
+                                                    String enqID = campScanner.nextLine();
+
+                                                    System.out.println("Showing all Enquiries for Camp " + desiredCamp.getStaticDetails().getCampID());
+                                                    desiredCamp.getStaticDetails().getEnquiries().viewEnquiry(loggedInAccount.getUserID(), Integer.parseInt(enqID));
+                                                    break;
+                                                }
+                                                case "3": {
+                                                    // Edit Enquiry
+                                                    System.out.println("Please input Enquiry ID: ");
+                                                    String enqID = campScanner.nextLine();
+                                                    System.out.println("Please enter your changed query: ");
+                                                    String newQuery = campScanner.nextLine();
+                                                    desiredCamp.getStaticDetails().getEnquiries().editEnquiry(loggedInAccount.getUserID(), Integer.parseInt(enqID), newQuery);
+                                                    System.out.println("Edited Enquiry!");
+                                                    break;
+                                                }
+                                                case "4": {
+                                                    // Delete Enquiry
+                                                    System.out.println("Please input Enquiry ID: ");
+                                                    String enqID = campScanner.nextLine();
+                                                    desiredCamp.getStaticDetails().getEnquiries().deleteEnquiry(loggedInAccount.getUserID(), Integer.parseInt(enqID));
+
+                                                    System.out.println("Deleted Enquiry");
+                                                    break;
+                                                }
+                                                default:{
+                                                    System.out.println("Invalid option");
+                                                    break;
+                                                }
+
                                             }
-                                            case "2": {
-                                                System.out.println("Please input student ID: ");
-                                                String studentID = campScanner.nextLine();
-
-                                                System.out.println("Showing all Enquiries for Camp " + desiredCamp.getStaticDetails().getCampID() + " for Student ID: " + studentID);
-                                                desiredCamp.getStaticDetails().getEnquiries().viewAllEnquiries(studentID);
-                                                break;
-                                            }
-                                            case "3": {
-                                                System.out.println("Please input student ID: ");
-                                                String studentID = campScanner.nextLine();
-                                                System.out.println("Please Enquiry ID: ");
-                                                String enqID = campScanner.nextLine();
-                                                System.out.println("Please input reply: ");
-                                                String reply = campScanner.nextLine();
-
-
-                                                System.out.println("Showing all Replies for Camp " + desiredCamp.getStaticDetails().getCampID() + " for Student ID: " + studentID);
-                                                desiredCamp.getStaticDetails().getEnquiries().submitReply(studentID, Integer.parseInt(enqID), reply);
-                                                break;
-                                            }
-                                            default:{
-                                                System.out.println("Invalid option");
-                                                break;
-                                            }
-
+                                            optionPrinter.enquiriesOptions();
+                                            enquiryOption = campScanner.nextLine();
                                         }
                                         System.out.println("Returning to previous menu...");
-                                    }
-                                    break;
-                                }
-                                case "3": {
-                                    // Suggestions Menu
-                                    System.out.println("Please input camp ID: ");
-                                    Camp desiredCamp = null;
-                                    try {
-                                        ArrayList<Camp> campCollection = CampListBrain.getCamp(Integer.parseInt(campScanner.nextLine()));
-                                        desiredCamp = campCollection.get(0);
-
-                                    }catch (Exception e){
-                                        System.out.println("Invalid camp ID");
-                                        optionPrinter.StaffLoginOptions(loggedInAccount);
-                                        studentOption = campScanner.nextLine();
-
                                         break;
                                     }
+                                    case "3": {
+                                        // Change Password Menu
 
-                                    optionPrinter.suggestionPrivilegedOptions();
-                                    String suggestionOption = campScanner.nextLine();
-                                    while (!suggestionOption.contains("4")){
-                                        optionPrinter.enquiriesPrivilegedOptions();
-                                        suggestionOption = campScanner.nextLine();
-                                        switch (suggestionOption){
-                                            case "1": {
-                                                System.out.println("Showing all Suggestions for Camp " + desiredCamp.getStaticDetails().getCampID());
-                                                desiredCamp.getStaticDetails().getSuggestions().viewAllSuggestionsRecords();
-                                                break;
+                                        System.out.println("Please enter new password ");
+                                        String newPass = campScanner.nextLine();
+
+                                        loggedInAccount.passwordChange(newPass);
+                                        break;
+
+                                    }
+                                    case "4": {
+                                        // Suggestions Menu
+                                        Camp desiredCamp = null;
+                                        try {
+                                            CommitteeMember cmTemp = (CommitteeMember) loggedInAccount;
+                                            ArrayList<Camp> campCollection = CampListBrain.getCamp(cmTemp.getInChargeCamp());
+                                            desiredCamp = campCollection.get(0);
+
+                                        }catch (Exception e){
+                                            System.out.println("Error: You are not an Committee Member");
+                                            optionPrinter.StudentLoginOptions(loggedInAccount);
+                                            committeeOption = campScanner.nextLine();
+
+                                            break;
+                                        }
+
+                                        optionPrinter.suggestionOptions();
+                                        String suggestionOption = campScanner.nextLine();
+                                        while (!suggestionOption.contains("4")){
+                                            switch (suggestionOption){
+                                                case "1": {
+                                                    // Show All Suggestions
+                                                    System.out.println("Showing all Suggestions for Camp " + desiredCamp.getStaticDetails().getCampID());
+                                                    desiredCamp.getStaticDetails().getSuggestions().viewSuggestions(loggedInAccount.getUserID());
+                                                    break;
+                                                }
+                                                case "2": {
+                                                    // Show Specific Suggestions
+                                                    System.out.println("Please enter Suggestion ID: ");
+                                                    String suggestionID = campScanner.nextLine();
+
+                                                    System.out.println("Showing all Suggestions for Camp " + desiredCamp.getStaticDetails().getCampID() + " for Student ID: " + loggedInAccount.getUserID());
+                                                    desiredCamp.getStaticDetails().getSuggestions().viewSpecificSuggestion(loggedInAccount.getUserID(), Integer.parseInt(suggestionID));
+                                                    break;
+                                                }
+                                                case "3": {
+                                                    // Create Suggestions
+                                                    System.out.println("Please enter suggestion: ");
+                                                    String newSuggestion = campScanner.nextLine();
+
+
+                                                    desiredCamp.getStaticDetails().getSuggestions().submitSuggestion(loggedInAccount.getUserID(), newSuggestion);
+                                                    System.out.println("Submitted a suggestion! ");
+                                                    ((CommitteeMember) loggedInAccount).addPoints(1);
+                                                    break;
+                                                }
+                                                default:{
+                                                    System.out.println("Invalid option");
+                                                    break;
+                                                }
+
                                             }
-                                            case "2": {
-                                                System.out.println("Please input student ID: ");
-                                                String studentID = campScanner.nextLine();
-
-                                                System.out.println("Showing all Suggestions for Camp " + desiredCamp.getStaticDetails().getCampID() + " for Student ID: " + studentID);
-                                                desiredCamp.getStaticDetails().getSuggestions().viewSuggestions(studentID);
-                                                break;
-                                            }
-                                            case "3": {
-                                                System.out.println("Please input student ID: ");
-                                                String studentID = campScanner.nextLine();
-
-                                                System.out.println("Please input Suggestion ID: ");
-                                                String sugID = campScanner.nextLine();
-
-                                                System.out.println("Showing all Replies for Camp " + desiredCamp.getStaticDetails().getCampID() + " for Student ID: " + studentID);
-                                                desiredCamp.getStaticDetails().getSuggestions().approveSuggestion(studentID, Integer.parseInt(sugID));
-                                                break;
-                                            }
-                                            default:{
-                                                System.out.println("Invalid option");
-                                                break;
-                                            }
-
+                                            optionPrinter.suggestionOptions();
+                                            suggestionOption = campScanner.nextLine();
                                         }
                                         System.out.println("Returning to previous menu...");
-                                    }
-                                    break;
-                                }
-                                case "4": {
-                                    // Reports Menu
-
-                                    System.out.println("Please input camp ID: ");
-                                    Camp desiredCamp = null;
-                                    try {
-                                        ArrayList<Camp> campCollection = CampListBrain.getCamp(Integer.parseInt(campScanner.nextLine()));
-                                        desiredCamp = campCollection.get(0);
-
-                                    }catch (Exception e){
-                                        System.out.println("Invalid camp ID");
-                                        optionPrinter.StaffLoginOptions(loggedInAccount);
-                                        studentOption = campScanner.nextLine();
-
                                         break;
                                     }
-                                    optionPrinter.reportPrivilegedOptions();
-                                    String reportOption = campScanner.nextLine();
+                                    case "5": {
+                                        // Report Generation
+                                        Camp desiredCamp = null;
+                                        try {
+                                            CommitteeMember cmTemp = (CommitteeMember) loggedInAccount;
+                                            ArrayList<Camp> campCollection = CampListBrain.getCamp(cmTemp.getInChargeCamp());
+                                            desiredCamp = campCollection.get(0);
 
-                                    while (!reportOption.contains("3")){
-                                        optionPrinter.enquiriesPrivilegedOptions();
-                                        reportOption = campScanner.nextLine();
-                                        switch (reportOption){
-                                            case "1": {
-                                                System.out.println("Generating General Report for Camp " + desiredCamp.getStaticDetails().getCampID());
-                                                optionPrinter.generateGenReport(desiredCamp);
+                                        }catch (Exception e){
+                                            System.out.println("Error: You are not an Committee Member");
+                                            optionPrinter.committeeLoginOptions(loggedInAccount);
+                                            committeeOption = campScanner.nextLine();
 
-                                                break;
-                                            }
-                                            case "2": {
-                                                System.out.println("Generating Performance Report for Camp " + desiredCamp.getStaticDetails().getCampID());
-                                                optionPrinter.generatePerformanceReport(desiredCamp, users);
-                                                break;
-                                            }
-                                            case "3": {
-                                                System.out.println("Please input student ID: ");
-                                                String studentID = campScanner.nextLine();
-
-                                                System.out.println("Showing all Replies for Camp " + desiredCamp.getStaticDetails().getCampID() + " for Student ID: " + studentID);
-                                                desiredCamp.getStaticDetails().getEnquiries().viewAllReply(studentID);
-                                                break;
-                                            }
-                                            default:{
-                                                System.out.println("Invalid option");
-                                                break;
-                                            }
-
+                                            break;
                                         }
-                                        System.out.println("Returning to previous menu...");
+                                        CampPrinter cPrint = new CampPrinter();
+                                        cPrint.printCampBasicDetails(desiredCamp);
+                                        break;
                                     }
-                                    break;
-                                }
-                                case "5": {
-                                    // Change Password Menu
-
-                                    System.out.println("Please enter new password ");
-                                    String newPass = campScanner.nextLine();
-
-                                    loggedInAccount.passwordChange(newPass);
-                                    break;
-
-                                }
-                                case "6": {
-                                    // Staff Logging Out
-                                    loggedIn = false;
-                                    break;
+                                    case "6": {
+                                        // Committee Logging Out
+                                        loggedIn = false;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -784,17 +970,14 @@ public class CampApp {
                 }
                 case "3": {
                     failState = true;
+                    dc.writeStaffData();
+                    dc.writeStudentData();
                     break;
                 }
                 default: {
 
-                    System.out.println();
-                    System.out.println("Options:");
-                    System.out.println("1. Staff Login");
-                    System.out.println("2. Student Login");
-                    System.out.println("3. Exit");
-                    System.out.println("Please enter an option:");
-                    loginInput = campScanner.nextLine();
+                    System.out.println("Invalid option!");
+
                     break;
                 }
             }

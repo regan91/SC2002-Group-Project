@@ -16,6 +16,9 @@ public class CommitteeMember extends Student{
     public void addPoints(int numPoints){
         points += numPoints;
     }
+    public void setInChargeCamp(int campID){
+        this.campInCharge = campID;
+    }
 
     public int getInChargeCamp(){
         return campInCharge;

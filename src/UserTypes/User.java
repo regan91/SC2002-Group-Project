@@ -20,6 +20,10 @@ public class User extends AbstractUser implements Serializable {
     public void setUserID(String userID){
         this.userID = userID;
     }
+    public String getPassword(){
+        // this SHOULD run only once!
+        return this.password;
+    }
     public void setPassword(String loadedPassword){
         // this SHOULD run only once!
         this.password = loadedPassword;

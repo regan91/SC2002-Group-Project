@@ -3,6 +3,7 @@ package HelperPackages.ProcessManagers;
 import HelperPackages.ProcessManagers.Interfaces.IDataManager;
 import HelperPackages.Serializer.BackupUtility;
 import HelperPackages.Serializer.SerializationUtil;
+import UserTypes.CommitteeMember;
 import UserTypes.Staff;
 import UserTypes.Student;
 import UserTypes.User;
@@ -11,13 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataManager implements IDataManager {
-    public List<String> reader(String filePath){
-        ArrayList<String> retrievedData = new ArrayList<>();
+    public List<String> reader(String filePath, String alternative){
+        ArrayList<String> retrievedData;
         try{
             retrievedData = SerializationUtil.reader(filePath);
         }catch (Exception e){
             System.out.println("Error: Serializer was not able to read from file, using backup");
-            retrievedData = BackupUtility.reader("database/test.csv");
+            retrievedData = BackupUtility.reader(alternative);
         }
         return retrievedData;
     }
@@ -35,8 +36,15 @@ public class DataManager implements IDataManager {
         User newRecord = null;
         if (isStaff) newRecord = new Staff();
         else  newRecord = new Student();
+        newRecord.setName(splitSRecord[0].strip());
         newRecord.setFaculty(splitSRecord[2].strip());
         newRecord.setUserID(splitSRecord[1].split("@")[0].strip());
+        try{
+            newRecord.setPassword(splitSRecord[3].strip());
+        }catch (Exception e){
+            System.out.println("Debug: Record has no password");
+        }
+
         newRecord.setUserType(isStaff);
         return newRecord;
     }
@@ -45,8 +53,9 @@ public class DataManager implements IDataManager {
         ArrayList<String> convertedList = new ArrayList<>();
         for (User dataRecord: targetList){
             String emailAddress = "ntu.edu.sg";
-            String combinedData = dataRecord.getName() + "," + dataRecord.getUserID()+ "@" + emailAddress + "," + dataRecord.getFaculty();
+            String combinedData = dataRecord.getName() + "," + dataRecord.getUserID()+ "@" + emailAddress + "," + dataRecord.getFaculty() + "," + dataRecord.getPassword();
             convertedList.add(combinedData);
+            System.out.println(combinedData);
         }
         return convertedList;
     }
@@ -54,7 +63,7 @@ public class DataManager implements IDataManager {
         ArrayList<String> convertedList = new ArrayList<>();
         for (User dataRecord: targetList){
             String emailAddress = "e.ntu.edu.sg";
-            String combinedData = dataRecord.getName() + "," + dataRecord.getUserID()+ "@" + emailAddress + "," + dataRecord.getFaculty();
+            String combinedData = dataRecord.getName() + "," + dataRecord.getUserID()+ "@" + emailAddress + "," + dataRecord.getFaculty() + "," + dataRecord.getPassword();
             convertedList.add(combinedData);
         }
         return convertedList;

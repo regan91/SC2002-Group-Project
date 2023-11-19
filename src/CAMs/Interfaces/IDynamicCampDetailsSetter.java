@@ -13,7 +13,9 @@ public interface IDynamicCampDetailsSetter {
     void setOpenStatus(boolean state);
 
     void setLocation(String newLocation);
+    void setMaxMember(int maxNum);
     void decMemberNum();
+    void incMemberNum();
     void decCurrentCommitteNum();
     void setDescription(String newDescription);
     void setVisibility(boolean isVisible);

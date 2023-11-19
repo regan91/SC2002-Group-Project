@@ -6,14 +6,18 @@ import java.util.ArrayList;
 
 public class ParticipantList implements IParticpantList {
 
-    private ArrayList<Participant> Attendee;
-    private ArrayList<Participant> BlockedAttendees;
-    private ArrayList<Participant> Committee;
+    private ArrayList<Participant> Attendee = new ArrayList<>();
+    private ArrayList<Participant> BlockedAttendees= new ArrayList<>();
+    private ArrayList<Participant> Committee= new ArrayList<>();
 
     public ArrayList<Participant> getAllParticipants() {
         ArrayList<Participant> combinedList = Attendee;
         combinedList.addAll(Committee);
         return combinedList;
+    }
+
+    public ArrayList<Participant> getBlockedParticipants() {
+        return BlockedAttendees;
     }
 
     public ArrayList<Participant> getAttendee(){

@@ -10,6 +10,18 @@ public class RegistrationController implements IRegistrationController {
     public ArrayList<Participant> getAttendeeMembers() {
         return participantData.getAttendee();
     }
+    public ArrayList<Participant> getBlockedMembers()  {
+        return participantData.getBlockedParticipants();
+    };
+
+    public boolean isBlockedMember(String studentID)  {
+        ArrayList<Participant> blockedList = participantData.getBlockedParticipants();
+
+        for (Participant part: blockedList){
+            if (part.getID().contains(studentID)) return true;
+        }
+        return false;
+    };
 
     public ArrayList<Participant> getCommitteeMembers() {
         return participantData.getCommittee();

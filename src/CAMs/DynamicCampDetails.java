@@ -13,10 +13,11 @@ public class DynamicCampDetails implements IDynamicCampDetailsGetter, IDynamicCa
     private LocalDate regClosingDate;
     private boolean isOpenToNTU;
     private String location;
+    private int currentSlots = 0;
     private int totalSlots;
     private int totalCommitteeSlots = 10;
     private String description;
-    private boolean visibility;
+    private boolean visibility = true;
 
 
     public String getCampName() {
@@ -40,7 +41,7 @@ public class DynamicCampDetails implements IDynamicCampDetailsGetter, IDynamicCa
     }
 
     public int getAvailableSlots() {
-        return this.totalSlots;
+        return this.totalSlots - this.currentSlots;
     }
 
     public int getCurrentCommitteeNum() {
@@ -80,8 +81,15 @@ public class DynamicCampDetails implements IDynamicCampDetailsGetter, IDynamicCa
         this.location = newLocation;
     }
 
+    public void setMaxMember(int maxNum){
+        this.totalSlots = maxNum;
+    }
+
     public void decMemberNum() {
         this.totalSlots -= 1;
+    }
+    public void incMemberNum() {
+        this.totalSlots += 1;
     }
     public void decCurrentCommitteNum() {
         this.totalCommitteeSlots -= 1;
