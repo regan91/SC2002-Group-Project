@@ -3,10 +3,29 @@ package HelperPackages.PrinterOperations;
 import CAMs.Camp;
 import RegistrationController.Participant;
 import UserTypes.CommitteeMember;
+import UserTypes.Student;
 import UserTypes.User;
 import UserTypes.UserList;
 
+import java.time.LocalDate;
+
 public class OptionsPrinter {
+
+    public void idPrompt(){
+        System.out.println();
+        System.out.println("Please enter your user ID: ");
+    }
+
+    public void pwdPrompt(){
+        System.out.println();
+        System.out.println("Please enter your password: ");
+    }
+
+
+    public void failedLoginPrompt(){
+        System.out.println();
+        System.out.println("Error: Incorrect user ID or password! ");
+    }
     public void loginOptions(){
         System.out.println();
         System.out.println("Options:");
@@ -113,15 +132,29 @@ public class OptionsPrinter {
 
     }
 
+    public void enquiriesCommitteeOptions(){
+
+        System.out.println();
+        System.out.println("Enquiries Options:");
+        System.out.println("1. Show All Enquiries");
+        System.out.println("2. Show Enquiry");
+        System.out.println("3. Create Reply");
+        System.out.println("4. Edit Reply");
+        System.out.println("5. Return to previous menu");
+        System.out.println("Please enter an option:");
+
+    }
+
     public void enquiriesOptions(){
 
         System.out.println();
         System.out.println("Enquiries Options:");
         System.out.println("1. Show All Enquiries");
         System.out.println("2. Show Enquiry");
-        System.out.println("3. Edit Enquiry");
-        System.out.println("4. Delete Enquiry");
-        System.out.println("5. Return to previous menu");
+        System.out.println("3. Create Enquiry");
+        System.out.println("4. Edit Enquiry");
+        System.out.println("5. Delete Enquiry");
+        System.out.println("6. Return to previous menu");
         System.out.println("Please enter an option:");
 
     }
@@ -146,7 +179,9 @@ public class OptionsPrinter {
         System.out.println("1. Show All Suggestions");
         System.out.println("2. Show Suggestion");
         System.out.println("3. Create Suggestion");
-        System.out.println("4. Return to previous menu");
+        System.out.println("4. Edit Suggestion");
+        System.out.println("5. Delete Suggestion");
+        System.out.println("6. Return to previous menu");
         System.out.println("Please enter an option:");
 
     }
@@ -165,9 +200,16 @@ public class OptionsPrinter {
     public void generateGenReport(Camp campDetails){
         System.out.println("General Report for Camp " + campDetails.getStaticDetails().getCampID());
         System.out.println("------");
-        System.out.println("Camp Name                      :" + campDetails.getStaticDetails().getCampID());
+        System.out.println("Camp Name                      :" + campDetails.getDynamicDetails().getCampName());
         System.out.println("Camp Staff-In-Charge           :" + campDetails.getStaticDetails().getStaffIC().getUserID());
-        System.out.println("Camp Dates                     :" + campDetails.getDynamicDetails().getCampDates());
+        System.out.println("Camp Dates                     :(YYYY-MM-DD)");
+        if (campDetails.getDynamicDetails().getCampDates().isEmpty()){
+            System.out.println();
+        } else {
+            for (LocalDate date : campDetails.getDynamicDetails().getCampDates()) {
+                System.out.println(" " + date.toString());
+            }
+        }
         System.out.println("Camp Registration Closing Date :" + campDetails.getDynamicDetails().getClosingDate());
         System.out.println("Camp Open Status               :" + campDetails.getDynamicDetails().getOpenStatus());
         System.out.println("Camp Location                  :" + campDetails.getDynamicDetails().getLocation());
@@ -182,12 +224,18 @@ public class OptionsPrinter {
         System.out.println("------");
         System.out.println("Camp Name                      :" + campDetails.getStaticDetails().getCampID());
         System.out.println("Camp Staff-In-Charge           :" + campDetails.getStaticDetails().getStaffIC().getUserID());
-        System.out.println("Camp Dates                     :" + campDetails.getDynamicDetails().getCampDates());
+        System.out.println("Camp Dates                     :(YYYY-MM-DD)");
+        if (campDetails.getDynamicDetails().getCampDates().isEmpty()){
+            System.out.println();
+        } else {
+            for (LocalDate date : campDetails.getDynamicDetails().getCampDates()) {
+                System.out.println(" " + date.toString());
+            }
+        }
         System.out.println("Camp Registration Closing Date :" + campDetails.getDynamicDetails().getClosingDate());
         System.out.println("Camp Open Status               :" + campDetails.getDynamicDetails().getOpenStatus());
         System.out.println("Camp Location                  :" + campDetails.getDynamicDetails().getLocation());
         System.out.println("Camp Available Slots           :" + campDetails.getDynamicDetails().getAvailableSlots());
-        System.out.println("Camp Committee Members         :" + campDetails.getDynamicDetails().getCurrentCommitteeNum());
         System.out.println("Camp Committee Members         :" + campDetails.getDynamicDetails().getCurrentCommitteeNum());
         System.out.println("Camp Description               :" + campDetails.getDynamicDetails().getDescription());
         System.out.println("Camp Visibility                :" + campDetails.getDynamicDetails().getVisibility());
@@ -195,9 +243,10 @@ public class OptionsPrinter {
         System.out.println("Committee Members: ");
         for (Participant partUser: campDetails.getStaticDetails().getRegistrations().getCommitteeMembers()){
             String userID = partUser.getID();
-            CommitteeMember signedUp = (CommitteeMember) userList.getStudent(userID);
-            System.out.println("Name: " + signedUp.getName());
-            System.out.println("Points: " + signedUp.getPoints());
+            String studentName = userList.getStudent(userID).getName();
+            int numPoints = userList.getStudent(userID).getPoints();
+            System.out.println("       Name: " + studentName);
+            System.out.println("       Points: " + numPoints);
             System.out.println();
         }
 

@@ -5,7 +5,7 @@ import EnquiryController.Interfaces.IEnquriesList;
 import java.util.ArrayList;
 
 public class EnquiresList implements IEnquriesList {
-    ArrayList<Enquiry> enquiries;
+    ArrayList<Enquiry> enquiries = new ArrayList<>();
     public ArrayList<Enquiry> getEnquiries() {
         return enquiries;
     }
@@ -20,7 +20,15 @@ public class EnquiresList implements IEnquriesList {
         }
         return enquiriesList;
     }
-
+    public ArrayList<Enquiry> getEnquriesByID(int enquiryID) {
+        ArrayList<Enquiry> enquiriesList = new ArrayList<>();
+        for (Enquiry enqRecord : enquiries) {
+            if (enqRecord.getEnquiryID() == enquiryID){
+                enquiriesList.add(enqRecord);
+            }
+        }
+        return enquiriesList;
+    }
     public ArrayList<Enquiry> getEnquries(String studentID, int enquiryID) {
         ArrayList<Enquiry> enquiriesList = new ArrayList<>();
         for (Enquiry enqRecord : enquiries) {

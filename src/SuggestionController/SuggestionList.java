@@ -25,7 +25,15 @@ public class SuggestionList implements ISuggestionList {
         }
         return foundSuggestions;
     }
-
+    public ArrayList<Suggestion> getSuggestionByID(int suggestionID) {
+        ArrayList<Suggestion> foundSuggestions = new ArrayList<>();
+        for (Suggestion target : suggestions) {
+            if ((target.getSuggestionID() == suggestionID)) {
+                foundSuggestions.add(target);
+            }
+        }
+        return foundSuggestions;
+    }
     public ArrayList<Suggestion> getSuggestion(String studentID, int suggestionID) {
         ArrayList<Suggestion> foundSuggestions = new ArrayList<>();
         for (Suggestion target : suggestions) {
@@ -44,6 +52,7 @@ public class SuggestionList implements ISuggestionList {
         suggestions.remove(oldSuggestion);
     }
     public void approveSuggestion(Suggestion oldSuggestion) {
+        oldSuggestion.setApproval(true);
         suggestions.remove(oldSuggestion);
         approvedSuggestions.add(oldSuggestion);
     }

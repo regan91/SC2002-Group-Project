@@ -16,8 +16,11 @@ public class CampList implements ICampList {
     public ArrayList<Camp> getCamps(String faculty) {
         ArrayList<Camp> visibleCamps = new ArrayList<>();
         for (Camp camprecords: camps){
-            if (camprecords.getDynamicDetails().getVisibility() && camprecords.getStaticDetails().getStaffIC().getFaculty().contains(faculty)){
-                visibleCamps.add(camprecords);
+            if (camprecords.getDynamicDetails().getVisibility()){
+                 if ((camprecords.getStaticDetails().getStaffIC().getFaculty().contains(faculty)) ||
+                         camprecords.getDynamicDetails().getOpenStatus()){
+                     visibleCamps.add(camprecords);
+                 }
             }
         }
         return visibleCamps;

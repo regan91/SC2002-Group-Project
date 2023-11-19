@@ -6,5 +6,5 @@ public interface ISuggestionController {
     void viewSpecificSuggestion(String studentID, int suggestionID);
     void editSuggestions(String studentID, int suggestionID);
     void deleteSuggestion(String studentID, int suggestionID);
-    void approveSuggestion(String studentID, int suggestionID);
+    void approveSuggestion(int suggestionID);
 }

@@ -16,6 +16,7 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
             System.out.println("-------\n");
             System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
             System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
             System.out.println("Enquiry Reply: " + enqRecord.getReply());
             System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
             System.out.println("-------\n\n");
@@ -28,6 +29,7 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
             System.out.println("-------\n");
             System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
             System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
             System.out.println("Enquiry Reply: " + enqRecord.getReply());
             System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
             System.out.println("-------\n\n");
@@ -41,6 +43,21 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
             System.out.println("-------\n");
             System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
             System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
+            System.out.println("Enquiry Reply: " + enqRecord.getReply());
+            System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
+            System.out.println("-------\n\n");
+        }
+    }
+
+    public void viewEnquiryByID(int enquiryID) {
+        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquriesByID(enquiryID);
+        for (Enquiry enqRecord : matchedEnquiry) {
+            System.out.println("Finding Enquiry " + enquiryID + " of studentID:" + enqRecord.getStudentID() + "\n");
+            System.out.println("-------\n");
+            System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
+            System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
             System.out.println("Enquiry Reply: " + enqRecord.getReply());
             System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
             System.out.println("-------\n\n");
@@ -50,14 +67,14 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
     public void submitEnquiry(String studentID,  String enquiry) {
 
         Enquiry newEnq = new Enquiry();
-        newEnq.setReply(enquiry);
+        newEnq.setQuestion(enquiry);
         newEnq.setStudentID(studentID);
         System.out.println("Submitting query of studentID:" + studentID + "\n");
         enquirydata.addEnqury(newEnq);
     }
 
-    public void editEnquiry(String studentID, int enquiryID, String newEnquiry) {
-        System.out.println("Editing Enquiry " + enquiryID + "question of studentID:" + studentID + "\n");
+    public void editEnquiry(String studentID, int enquiryID) {
+        System.out.println("Editing Enquiry " + enquiryID + " question of studentID: " + studentID + "\n");
         System.out.println();
         System.out.println("Please enter question: ");
         String newQuestion = campScanner.nextLine();
@@ -67,6 +84,7 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
             System.out.println("-------\n");
             System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
             System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
             System.out.println("Enquiry Reply: " + enqRecord.getReply());
             System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
             System.out.println("-------\n\n");
@@ -88,6 +106,7 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
             System.out.println("-------\n");
             System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
             System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
             System.out.println("Enquiry Reply: " + enqRecord.getReply());
             System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
             System.out.println("-------\n\n");
@@ -95,40 +114,59 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
     }
 
     public void viewReply(String studentID, int enquiryID) {
-        System.out.println("Finding Enquiry" + enquiryID + " of studentID:" + studentID + "\n");
+        System.out.println("Finding Enquiry " + enquiryID + " of studentID: " + studentID + "\n");
         ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquries(studentID, enquiryID);
         for (Enquiry enqRecord : matchedEnquiry) {
             System.out.println("-------\n");
             System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
             System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
             System.out.println("Enquiry Reply: " + enqRecord.getReply());
             System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
             System.out.println("-------\n\n");
         }
     }
 
-    public void submitReply(String studentID,  int enquiryID, String enquiry) {
-        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquries(studentID, enquiryID);
-        Enquiry targetEnq = matchedEnquiry.get(0);
-        targetEnq.setQuestion(enquiry);
-        System.out.println("Submitting query of studentID:" + studentID + "\n");
+    public void submitReply(String studentID, int enquiryID, String enquiry) {
+        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquriesByID(enquiryID);
+        if (matchedEnquiry.size() == 0){
+            System.out.println("Error: Invalid enquiry ID");
+            return;
+        }
+        for (Enquiry enqRecord : matchedEnquiry) {
+            enqRecord.setReply(enquiry);
+            enqRecord.setReplierID(studentID);
+            System.out.println("-------\n");
+            System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
+            System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
+            System.out.println("Enquiry Reply: " + enqRecord.getReply());
+            System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
+            System.out.println("-------\n\n");
+        }
     }
 
-    public void editReply(String studentID, int enquiryID, String newEnquiry) {
-        System.out.println("Editing Enquiry " + enquiryID + "reply of studentID:" + studentID + "\n");
+    public void editReply(String studentID, int enquiryID) {
+        System.out.println("Editing Enquiry " + enquiryID + " reply of studentID: " + studentID + "\n");
         System.out.println();
-        System.out.println("Please enter question: ");
+        System.out.println("Please enter the new reply: ");
         String newQuestion = campScanner.nextLine();
         ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquries(studentID, enquiryID);
+        if (matchedEnquiry.size() == 0){
+            System.out.println("Error: Invalid enquiry ID");
+            return;
+        }
         for (Enquiry enqRecord : matchedEnquiry) {
             enqRecord.setQuestion(newQuestion);
             System.out.println("-------\n");
             System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
             System.out.println("Enquiry Question: " + enqRecord.getQuestion());
+            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
             System.out.println("Enquiry Reply: " + enqRecord.getReply());
             System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
             System.out.println("-------\n\n");
         }
+
     }
 
     public void deleteReply(String studentID, int enquiryID) {

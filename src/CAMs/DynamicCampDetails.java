@@ -9,12 +9,12 @@ import java.time.LocalDate;
 public class DynamicCampDetails implements IDynamicCampDetailsGetter, IDynamicCampDetailsSetter {
 
     private String name;
-    private ArrayList<LocalDate> dates;
-    private LocalDate regClosingDate;
-    private boolean isOpenToNTU;
+    private ArrayList<LocalDate> dates = new ArrayList<>();
+    private LocalDate regClosingDate = null;
+    private boolean isOpenToNTU = false;
     private String location;
     private int currentSlots = 0;
-    private int totalSlots;
+    private int totalSlots = 1;
     private int totalCommitteeSlots = 10;
     private String description;
     private boolean visibility = true;

@@ -6,6 +6,7 @@ public class Student extends User {
     private ArrayList<Integer> registeredCamp = new ArrayList<>();
     private boolean isCommittee = false;
     private int commiteeCamp = -1;
+    private int points = 0;
 
     public boolean getIsCommittee(){
         return this.isCommittee;
@@ -13,6 +14,13 @@ public class Student extends User {
 
     public int getCommitteeCamp(){
         return this.commiteeCamp;
+    }
+    public int getPoints(){
+        return points;
+    }
+
+    public void addPoints(int numPoints){
+        points += numPoints;
     }
 
     public void setIsCommittee(int campID ){
