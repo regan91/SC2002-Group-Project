@@ -43,6 +43,9 @@ public class DynamicCampDetails implements IDynamicCampDetailsGetter, IDynamicCa
     public int getAvailableSlots() {
         return this.maxSlots - this.occupiedSlots;
     }
+    public int getOccupiedSlots() {
+        return this.occupiedSlots;
+    }
 
     public int getCurrentCommitteeNum() {
         return this.totalCommitteeSlots;

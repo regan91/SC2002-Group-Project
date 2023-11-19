@@ -16,9 +16,6 @@ public class ParticipantList implements IParticpantList {
         return combinedList;
     }
 
-    public ArrayList<Participant> getBlockedParticipants() {
-        return BlockedAttendees;
-    }
 
     public ArrayList<Participant> getAttendee(){
         return Attendee;
@@ -44,12 +41,19 @@ public class ParticipantList implements IParticpantList {
         return null;
     }
 
-    public void addAttendee(Participant newParticipant) {
+    public boolean addAttendee(Participant newParticipant) {
+        if (BlockedAttendees.contains(newParticipant)){
+            return false;
+        }
         Attendee.add(newParticipant);
+        return true;
     }
 
-    public void addCommittee(Participant newParticipant) {
-        Committee.add(newParticipant);
+    public boolean addCommittee(Participant newParticipant) {
+        if (BlockedAttendees.contains(newParticipant)){
+            return false;
+        }Committee.add(newParticipant);
+        return true;
     }
 
     public void dropAttendee(Participant participant) {

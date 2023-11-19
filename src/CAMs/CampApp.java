@@ -204,9 +204,15 @@ public class CampApp {
                                                             // Max Participants
                                                             System.out.println("Please set Camp's Max Number of Participants: ");
                                                             String changeValue = campScanner.nextLine();
-                                                            desiredCamp.getDynamicDetails().setMaxMember(Integer.parseInt(changeValue));
+                                                            if (desiredCamp.getDynamicDetails().getOccupiedSlots() <= Integer.parseInt(changeValue)){
+                                                                desiredCamp.getDynamicDetails().setMaxMember(Integer.parseInt(changeValue));
 
-                                                            System.out.println("Camp Max Participants has been updated!");
+                                                                System.out.println("Camp Max Participants has been updated!");
+                                                            }else {
+                                                                System.out.println("Not possible to update Camp Participants! New limit is greater than current participants!");
+
+                                                            }
+
                                                             break;
                                                         }
                                                         case "6": {
@@ -555,17 +561,18 @@ public class CampApp {
 
                                                         ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
                                                         Camp targetCamp = campCollection.get(0);
-                                                        if (targetCamp.getStaticDetails().getRegistrations().isBlockedMember(studentUser.getUserID())){
-                                                            // if the person is blocked
-                                                            System.out.println("You have withdrawn from the camp!");
-                                                            break;
-                                                        }
+
                                                         System.out.println("Register as committee member?: [Y/N] ");
                                                         String committeeChoice = campScanner.nextLine();
                                                         if (targetCamp.getDynamicDetails().getAvailableSlots() > 0){
                                                             if (committeeChoice.contains("Y")) {
                                                                 if (targetCamp.getDynamicDetails().getCurrentCommitteeNum() > 0){
-                                                                    targetCamp.getStaticDetails().getRegistrations().registerCamp(true, studentUser.getUserID());
+                                                                    boolean registerStatus = targetCamp.getStaticDetails().getRegistrations().registerCamp(true, studentUser.getUserID());
+                                                                    if (registerStatus){
+                                                                        // if the person is blocked
+                                                                        System.out.println("You had withdrawn from the camp!");
+                                                                        break;
+                                                                    }
                                                                     targetCamp.getDynamicDetails().decCurrentCommitteNum();
 
                                                                     Student oldState = users.getStudent(studentUser.getUserID());
@@ -579,7 +586,12 @@ public class CampApp {
                                                                 }
                                                             }else {
                                                                 if (targetCamp.getDynamicDetails().getAvailableSlots() > 0){
-                                                                targetCamp.getStaticDetails().getRegistrations().registerCamp(false, studentUser.getUserID());
+                                                                    boolean registerStatus = targetCamp.getStaticDetails().getRegistrations().registerCamp(false, studentUser.getUserID());
+                                                                    if (registerStatus){
+                                                                        // if the person is blocked
+                                                                        System.out.println("You had withdrawn from the camp!");
+                                                                        break;
+                                                                    }
                                                                 targetCamp.getDynamicDetails().incMemberNum();
                                                                 System.out.println("Registered for the camp as participant!");}
                                                                 studentUser.addRegisteredCamp(targetCamp.getStaticDetails().getCampID());
@@ -783,14 +795,14 @@ public class CampApp {
 
                                                         ArrayList<Camp> campCollection = CampListBrain.getCamp(desiredCamp);
                                                         Camp targetCamp = campCollection.get(0);
-                                                        if (targetCamp.getStaticDetails().getRegistrations().isBlockedMember(committeeUser.getUserID())){
-                                                            // if the person is blocked
-                                                            System.out.println("You have withdrawn from the camp!");
-                                                            break;
-                                                        }
                                                         if (targetCamp.getDynamicDetails().getAvailableSlots() > 0) {
 
-                                                            targetCamp.getStaticDetails().getRegistrations().registerCamp(false, committeeUser.getUserID());
+                                                            boolean registerStatus = targetCamp.getStaticDetails().getRegistrations().registerCamp(false, committeeUser.getUserID());
+                                                            if (registerStatus){
+                                                                // if the person is blocked
+                                                                System.out.println("You had withdrawn from the camp!");
+                                                                break;
+                                                            }
 
                                                             System.out.println("Registered for the camp!");
                                                             committeeUser.addRegisteredCamp(targetCamp.getStaticDetails().getCampID());

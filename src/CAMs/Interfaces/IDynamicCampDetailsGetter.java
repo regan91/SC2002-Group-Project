@@ -9,6 +9,7 @@ public interface IDynamicCampDetailsGetter {
     LocalDate getClosingDate();
     boolean getOpenStatus();
     String getLocation();
+    int getOccupiedSlots();
     int getAvailableSlots();
     int getCurrentCommitteeNum();
     String getDescription();

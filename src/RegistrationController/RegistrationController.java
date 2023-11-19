@@ -10,30 +10,18 @@ public class RegistrationController implements IRegistrationController {
     public ArrayList<Participant> getAttendeeMembers() {
         return participantData.getAttendee();
     }
-    public ArrayList<Participant> getBlockedMembers()  {
-        return participantData.getBlockedParticipants();
-    };
-
-    public boolean isBlockedMember(String studentID)  {
-        ArrayList<Participant> blockedList = participantData.getBlockedParticipants();
-
-        for (Participant part: blockedList){
-            if (part.getID().contains(studentID)) return true;
-        }
-        return false;
-    };
 
     public ArrayList<Participant> getCommitteeMembers() {
         return participantData.getCommittee();
     }
 
-    public void registerCamp(boolean isCommittee, String studentID) {
+    public boolean  registerCamp(boolean isCommittee, String studentID) {
         Participant newPart = new Participant();
         newPart.setID(studentID);
         if (isCommittee){
-            participantData.addCommittee(newPart);
+            return participantData.addCommittee(newPart);
         }else{
-            participantData.addAttendee(newPart);
+            return participantData.addAttendee(newPart);
         }
     }
 
