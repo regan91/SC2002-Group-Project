@@ -69,7 +69,7 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
         Enquiry newEnq = new Enquiry();
         newEnq.setQuestion(enquiry);
         newEnq.setStudentID(studentID);
-        System.out.println("Submitting query of studentID:" + studentID + "\n");
+        System.out.println("Submitting query of studentID: " + studentID + "\n");
         enquirydata.addEnqury(newEnq);
     }
 

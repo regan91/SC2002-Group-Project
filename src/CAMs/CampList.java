@@ -1,26 +1,22 @@
 package CAMs;
 
 import CAMs.Interfaces.ICampList;
-import EnquiryController.EnquiriesController;
-import RegistrationController.RegistrationController;
-import SuggestionController.SuggestionController;
 import UserTypes.Staff;
 
 import java.util.ArrayList;
 
 public class CampList implements ICampList {
-    private ArrayList<Camp> camps = new ArrayList<>();
+    private final ArrayList<Camp> camps = new ArrayList<>();
     public ArrayList<Camp> getCamps() {
         return camps;
     }
     public ArrayList<Camp> getCamps(String faculty) {
         ArrayList<Camp> visibleCamps = new ArrayList<>();
-        for (Camp camprecords: camps){
-            if (camprecords.getDynamicDetails().getVisibility()){
-                 if ((camprecords.getStaticDetails().getStaffIC().getFaculty().contains(faculty)) ||
-                         camprecords.getDynamicDetails().getOpenStatus()){
-                     visibleCamps.add(camprecords);
-                 }
+        for (Camp campRecords: camps){
+            if (campRecords.getDynamicDetails().getVisibility() && ((campRecords.getStaticDetails().getStaffIC().getFaculty().equals(faculty)) ||
+                         campRecords.getDynamicDetails().getOpenStatus())){
+                     visibleCamps.add(campRecords);
+
             }
         }
         return visibleCamps;
@@ -53,5 +49,5 @@ public class CampList implements ICampList {
         }
         camps.remove(desiredCamp);
 
-    };
+    }
 }

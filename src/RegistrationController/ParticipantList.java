@@ -22,7 +22,7 @@ public class ParticipantList implements IParticpantList {
     }
     public Participant getSpecificAttendee(String studentID){
         for (Participant part : Attendee) {
-            if (part.getID().contains(studentID)) {
+            if (part.getID().equals(studentID)) {
                 return part;
             }
         }
@@ -34,7 +34,7 @@ public class ParticipantList implements IParticpantList {
     }
     public Participant getSpecificCommittee(String studentID) {
         for (Participant part : Committee) {
-            if (part.getID().contains(studentID)) {
+            if (part.getID().equals(studentID)) {
                 return part;
             }
         }

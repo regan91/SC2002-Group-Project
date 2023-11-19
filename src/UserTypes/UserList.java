@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class UserList implements IUserList {
 
-    private ArrayList<Student> studentList = new ArrayList<>();
-    private ArrayList<Staff> staffList = new ArrayList<>();
+    private final ArrayList<Student> studentList = new ArrayList<>();
+    private final ArrayList<Staff> staffList = new ArrayList<>();
     public void addStudent(Student newStudent) {
         studentList.add(newStudent);
     }
@@ -28,7 +28,7 @@ public class UserList implements IUserList {
     }
     public Student getStudent(String studentID) {
         for (Student listRecord : studentList) {
-            if (listRecord.getUserID().contains(studentID)){
+            if (listRecord.getUserID().equals(studentID)){
                 return listRecord;
             }
         }
@@ -37,7 +37,7 @@ public class UserList implements IUserList {
 
     public Staff getStaff(String staffID) {
         for (Staff listRecord : staffList) {
-            if (listRecord.getUserID().contains(staffID)){
+            if (listRecord.getUserID().equals(staffID)){
                 return listRecord;
             }
         }

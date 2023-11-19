@@ -245,7 +245,7 @@ public class OptionsPrinter {
 
                 String userID = partUser.getID();
                 Student targetMember = userList.getStudent(userID);
-                if (targetMember.getFaculty().contains(campFaculty)) {
+                if (targetMember.getFaculty().equals(campFaculty)) {
 
                     System.out.println("       Name: " + targetMember.getName());
                     System.out.println();
@@ -256,7 +256,7 @@ public class OptionsPrinter {
 
                 String userID = partUser.getID();
                 Student targetMember = userList.getStudent(userID);
-                if (targetMember.getFaculty().contains(campFaculty)) {
+                if (targetMember.getFaculty().equals(campFaculty)) {
 
                     System.out.println("       Name: " + targetMember.getName());
                     System.out.println();
