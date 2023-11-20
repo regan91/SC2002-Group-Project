@@ -34,13 +34,4 @@ public class CampListController implements ICampListController {
         return createdCamps;
     }
 
-    public ArrayList<Camp> getRegisteredCamps(String studentID) {
-        ArrayList<Camp> registeredCamp = new ArrayList<>();
-        for (Camp campRecord : campData.getCamps()) {
-            if (campRecord.getStaticDetails().getStaffIC().getUserID().equals(studentID)){
-                registeredCamp.add(campRecord);
-            }
-        }
-        return registeredCamp;
-    }
 }

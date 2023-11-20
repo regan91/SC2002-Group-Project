@@ -98,35 +98,6 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
             enquirydata.dropEnquiry(enqRecord);
         }
     }
-
-    public void viewAllReply(String studentID) {
-        System.out.println("Finding all reply records of Student: " + studentID + "\n");
-        ArrayList<Enquiry> matchedEnquiry = enquirydata.getAllEnquries(studentID);
-        for (Enquiry enqRecord : matchedEnquiry) {
-            System.out.println("-------\n");
-            System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
-            System.out.println("Enquiry Question: " + enqRecord.getQuestion());
-            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
-            System.out.println("Enquiry Reply: " + enqRecord.getReply());
-            System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
-            System.out.println("-------\n\n");
-        }
-    }
-
-    public void viewReply(String studentID, int enquiryID) {
-        System.out.println("Finding Enquiry " + enquiryID + " of studentID: " + studentID + "\n");
-        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquries(studentID, enquiryID);
-        for (Enquiry enqRecord : matchedEnquiry) {
-            System.out.println("-------\n");
-            System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
-            System.out.println("Enquiry Question: " + enqRecord.getQuestion());
-            System.out.println("Enquiry Asked By: " + enqRecord.getStudentID());
-            System.out.println("Enquiry Reply: " + enqRecord.getReply());
-            System.out.println("Enquiry Replied By: " + enqRecord.getReplierID());
-            System.out.println("-------\n\n");
-        }
-    }
-
     public void submitReply(String studentID, int enquiryID, String enquiry) {
         ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquriesByID(enquiryID);
         if (matchedEnquiry.size() == 0){
@@ -169,11 +140,4 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
 
     }
 
-    public void deleteReply(String studentID, int enquiryID) {
-        System.out.println("Deleting reply " + enquiryID + " of student: " + studentID + "\n");
-        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquries(studentID, enquiryID);
-        for (Enquiry enqRecord : matchedEnquiry) {
-            enquirydata.dropEnquiry(enqRecord);
-        }
-    }
 }
