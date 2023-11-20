@@ -2,10 +2,12 @@ package EnquiryController;
 
 import EnquiryController.Interfaces.IEnquiriesQuestionController;
 import EnquiryController.Interfaces.IEnquiriesReplyController;
+import UserTypes.CommitteeMember;
 
 import java.util.ArrayList;
 
 import static CAMs.CampApp.campScanner;
+import static CAMs.CampApp.users;
 
 public class EnquiriesController implements IEnquiriesReplyController, IEnquiriesQuestionController {
     EnquiresList enquirydata = new EnquiresList();
@@ -122,13 +124,13 @@ public class EnquiriesController implements IEnquiriesReplyController, IEnquirie
         System.out.println();
         System.out.println("Please enter the new reply: ");
         String newQuestion = campScanner.nextLine();
-        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquries(studentID, enquiryID);
+        ArrayList<Enquiry> matchedEnquiry = enquirydata.getEnquriesByID(enquiryID);
         if (matchedEnquiry.size() == 0){
             System.out.println("Error: Invalid enquiry ID");
             return;
         }
         for (Enquiry enqRecord : matchedEnquiry) {
-            enqRecord.setQuestion(newQuestion);
+            enqRecord.setReply(newQuestion);
             System.out.println("-------\n");
             System.out.println("Enquiry ID: " + enqRecord.getEnquiryID());
             System.out.println("Enquiry Question: " + enqRecord.getQuestion());
