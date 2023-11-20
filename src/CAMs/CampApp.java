@@ -591,8 +591,8 @@ public class CampApp {
                                                                 }
                                                             }else {
                                                                 if (targetCamp.getDynamicDetails().getAvailableSlots() > 0){
-                                                                    boolean blockedStatus = targetCamp.getStaticDetails().getRegistrations().registerCamp(false, studentUser.getUserID());
-                                                                    if (blockedStatus){
+                                                                    boolean isNotBlocked = targetCamp.getStaticDetails().getRegistrations().registerCamp(false, studentUser.getUserID());
+                                                                    if (!isNotBlocked){
                                                                         // if the person is blocked
                                                                         System.out.println("You had withdrawn from the camp!");
                                                                         break;
@@ -903,16 +903,27 @@ public class CampApp {
                                                     String enqID = campScanner.nextLine();
                                                     System.out.println("Please enter reply: ");
                                                     String newReply = campScanner.nextLine();
-                                                    desiredCamp.getStaticDetails().getEnquiries().submitReply(committeeUser.getUserID(), Integer.parseInt(enqID), newReply);
-                                                    committeeUser.addPoints(1);
-                                                    break;
+                                                    try{
+                                                        desiredCamp.getStaticDetails().getEnquiries().submitReply(committeeUser.getUserID(), Integer.parseInt(enqID), newReply);
+                                                        committeeUser.addPoints(1);
+                                                        break;
+                                                    } catch (Exception e){
+                                                        System.out.println("Invalid camp ID");
+                                                        break;
+                                                    }
+
                                                 }
                                                 case "4": {
                                                     // Edit Reply
                                                     System.out.println("Please input Enquiry ID: ");
                                                     String enqID = campScanner.nextLine();
-                                                    desiredCamp.getStaticDetails().getEnquiries().editReply(committeeUser.getUserID(), Integer.parseInt(enqID));
-                                                    break;
+                                                    try{
+                                                        desiredCamp.getStaticDetails().getEnquiries().editReply(committeeUser.getUserID(), Integer.parseInt(enqID));
+                                                        break;
+                                                    } catch (Exception e){
+                                                        System.out.println("Invalid camp ID");
+                                                        break;
+                                                    }
                                                 }
                                                 default:{
                                                     System.out.println("Invalid option");
@@ -1001,14 +1012,12 @@ public class CampApp {
                                                 case "5": {
                                                     // Delete Suggestions
                                                     try {
-
-
                                                         System.out.println("Please enter suggestion ID: ");
                                                         String suggID = campScanner.nextLine();
 
 
                                                         desiredCamp.getStaticDetails().getSuggestions().deleteSuggestion(committeeUser.getUserID(), Integer.parseInt(suggID));
-                                                        committeeUser.addPoints(1);
+                                                        committeeUser.addPoints(-1);
                                                         break;
                                                     }catch (Exception e){
 

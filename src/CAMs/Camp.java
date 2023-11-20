@@ -8,6 +8,7 @@ import UserTypes.Staff;
 
 public class Camp implements ICamp {
 
+
     private StaticCampDetails staticDetails;
     private DynamicCampDetails dynamicDetails = new DynamicCampDetails();
     public StaticCampDetails getStaticDetails() {
