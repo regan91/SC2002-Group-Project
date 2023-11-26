@@ -15,7 +15,6 @@ CAMs is a system that allows users to login as either Staff or Student. The diff
       - Base user: Can see and do little; can join and leave camps and submit queries
       - Rank and file: Unable to see suggestions and generate reports
       - Possible promotion: Has a more privileged user called CommitteeMember
-      - <b>WARNING: Current implementation overlaps with CommitteMember</b>
 
   - CommitteMember:
       - More powerful than most: Has elevated permissions, BUT it's restricted to only one camp
